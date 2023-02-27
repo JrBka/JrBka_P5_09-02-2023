@@ -35,6 +35,6 @@ try {
     }
 
 } catch (Exception $e) {
-    die($e->getMessage());
+    echo $e->getMessage();
 }
 

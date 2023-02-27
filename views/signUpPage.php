@@ -1,5 +1,5 @@
 <?php $title = 'INSCRIPTION'; ?>
-<?php $H1 = 'INSCRIPTION' ?>
+<?php $H1 = 'INSCRIPTION'; ?>
 
 <?php ob_start(); ?>
 
@@ -31,7 +31,7 @@
             <?php
             if (isset($_SESSION['Error'])) {
                 ?>
-                <p class="alert alert-danger"><?= $_SESSION['Error'] ?></p>
+                <p class="alert alert-danger"><?= $_SESSION['Error']; ?></p>
                 <?php
                 unset($_SESSION['Error']);
             }
@@ -40,6 +40,7 @@
     </form>
 </div>
 
-<?php $content = ob_get_clean() ?>
+<?php $content = ob_get_clean(); ?>
 
-<?php require('layout.php') ?>
+<?php require('layout.php'); ?>
+

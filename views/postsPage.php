@@ -1,12 +1,14 @@
 <?php $title = 'Posts'; ?>
-<?php $H1 = 'MES DERNIERS POSTS' ?>
+<?php $H1 = 'MES DERNIERS POSTS'; ?>
 
 <?php ob_start(); ?>
 
-    <section>
-        <?= 'ok' ?>
-    </section>
+<section>
+    <?= 'ok'; ?>
+</section>
 
-<?php $content = ob_get_clean() ?>
+<?php $content = ob_get_clean(); ?>
 
-<?php require('layout.php') ?>
+<?php require('layout.php'); ?>
+
+

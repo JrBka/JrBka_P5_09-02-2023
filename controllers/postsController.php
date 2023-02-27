@@ -7,3 +7,5 @@ class Posts
         require('views/postsPage.php');
     }
 }
+
+;

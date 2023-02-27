@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta name="description" content=""/>
     <meta name="author" content=""/>
-    <title><?= $title ?></title>
-    <link rel="icon" href="views/img/bg-home.webp"/>
+    <title><?= $title; ?></title>
+    <link rel="icon" href="favicon.ico"/>
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
     <!-- Google fonts-->
@@ -73,7 +73,7 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <div class="site-heading">
-                    <h1><?= $H1 ?></h1>
+                    <h1><?= $H1; ?></h1>
                     <span class="subheading">Développement PHP</span>
                 </div>
             </div>
@@ -81,7 +81,7 @@
     </div>
 </header>
 
-<?= $content ?>
+<?= $content; ?>
 
 <!-- Footer-->
 <footer class="border-top" style="background-image: url('views/img/bg-home.webp') ; background-size:contain">

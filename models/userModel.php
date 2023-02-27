@@ -32,7 +32,7 @@ class User extends Database
                 ) or throw new Exception();
 
             } catch (Exception $e) {
-                die($e->getMessage());
+                echo $e->getMessage();
             }
 
 
@@ -47,7 +47,7 @@ class User extends Database
                 $id = $getId->fetchObject();
 
             } catch (Exception $e) {
-                die($e->getMessage());
+                echo $e->getMessage();
             }
 
             try {
@@ -61,11 +61,11 @@ class User extends Database
                 ]) or throw new Exception();
 
             } catch (Exception $e) {
-                die($e->getMessage());
+                echo $e->getMessage();
             }
 
         } catch (Exception $e) {
-            die($e->getMessage());
+            echo $e->getMessage();
         }
 
     }
@@ -140,5 +140,7 @@ class User extends Database
     }
 
 }
+
+;
 
 

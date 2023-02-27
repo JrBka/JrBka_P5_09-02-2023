@@ -20,7 +20,7 @@ class Auth
             return $crsf;
 
         } catch (Exception $e) {
-            die($e->getMessage());
+            echo $e->getMessage();
         }
 
     }
@@ -45,7 +45,7 @@ class Auth
 
             );
         } catch (Exception $e) {
-            die($e->getMessage());
+            echo $e->getMessage();
         }
     }
 
@@ -71,8 +71,10 @@ class Auth
 
         } catch (Exception $e) {
 
-            die($e->getMessage());
+            echo $e->getMessage();
         }
     }
 
 }
+
+;

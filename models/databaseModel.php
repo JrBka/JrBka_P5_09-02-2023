@@ -22,9 +22,11 @@ abstract class Database
 
         } catch (PDOException $e) {
 
-            die($e->getMessage());
+            echo $e->getMessage();
 
         }
     }
 }
+
+;
 
