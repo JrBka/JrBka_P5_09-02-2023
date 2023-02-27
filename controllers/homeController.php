@@ -56,5 +56,5 @@ class Home extends Mailer
     }
 }
 
-;
+
 
