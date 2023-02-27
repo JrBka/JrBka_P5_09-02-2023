@@ -11,14 +11,19 @@ abstract class Database
 
     protected $connection;
 
-    public function getConnection()
+    // Database connection with PDO
+    public function getConnection(): void
     {
         $this->connection = null;
 
         try {
-            $this->connection = new PDO('mysql:host=' . $this->host . ':' . $this->port . ';dbname=' . $this->dbName, $this->username, $this->password);
+
+            $this->connection = new PDO('mysql:host=' . $this->host . ':' . $this->port . ';dbname=' . $this->dbName, $this->username, $this->password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+
         } catch (PDOException $e) {
+
             die($e->getMessage());
+
         }
     }
 }

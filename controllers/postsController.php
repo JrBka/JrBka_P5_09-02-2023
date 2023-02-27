@@ -1,6 +1,6 @@
 <?php
 
-class PostsPage
+class Posts
 {
     public function getPostsPage()
     {

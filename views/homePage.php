@@ -5,24 +5,31 @@
 
 <?php
 
-if (isset($_SESSION['user']) && isset($_SESSION['firstConnexion'])) {
+if (isset($_SESSION['user']) && isset($_SESSION['atConnection']) && $_SESSION['atConnection'] === true) {
     ?>
     <div class="alert alert-success bg-light ">
-        <h2 class="text-center "><?= $_SESSION['firstConnexion'] ?>
-            <?php if (isset($_SESSION['userCreated'])) {
-                echo '</br>' . $_SESSION['userCreated'];
+        <h2 class="text-center "><?= 'Bonjour ' . htmlspecialchars($_SESSION['user']->pseudo) . ' !' ?>
+            <?php if (isset($_SESSION['userCreated']) && $_SESSION['userCreated'] === true) {
+                echo '</br>' . 'Votre profil a bien été créé !';
             }
-            unset($_SESSION['userCreated']) ?></h2>
+            $_SESSION['userCreated'] = false ?></h2>
     </div>
     <?php
-    unset($_SESSION['firstConnexion']);
-} elseif (isset($_SESSION['destroy'])) {
+    $_SESSION['atConnection'] = false;
+} elseif (isset($_SESSION['destroy']) && $_SESSION['destroy'] === true) {
     ?>
     <div class="alert alert-success bg-light text-center">
-        <h2 class="text-center"><?= $_SESSION['destroy'] ?></h2>
+        <h2 class="text-center">Vous êtes déconnecté</h2>
     </div>
     <?php
-    unset($_SESSION['destroy']);
+    $_SESSION['destroy'] = false;
+} elseif (isset($_SESSION['TokenError']) && $_SESSION['TokenError'] === true) {
+    ?>
+    <div class="alert alert-danger bg-light text-center">
+        <h2 class="text-center">Veuillez vous authentifier !</h2>
+    </div>
+    <?php
+    $_SESSION['TokenError'] = false;
 }
 ?>
 
@@ -42,17 +49,23 @@ if (isset($_SESSION['user']) && isset($_SESSION['firstConnexion'])) {
                         <form id="contactForm" action="index.php?action=form"
                               method="post">
                             <div class="form-floating">
-                                <input class="form-control" id="name" type="text" name="name" required/>
+                                <input class="form-control" id="name" type="text" name="name"
+                                       value="<?php if ($_SESSION['LOGGED_USER'] === true) {
+                                           echo htmlspecialchars($_SESSION['user']->pseudo);
+                                       } ?>"
+                                       required/>
                                 <label for="name">NOM</label>
                             </div>
                             <div class="form-floating">
-                                <input class="form-control" id="email" type="email" name="email" required/>
+                                <input class="form-control" id="email" type="email" name="email"
+                                       value="<?php if ($_SESSION['LOGGED_USER'] === true) {
+                                           echo htmlspecialchars($_SESSION['user']->email);
+                                       } ?>" required/>
                                 <label for="email">Email</label>
                             </div>
                             <div class="form-floating">
-                            <textarea class="form-control" id="message"
-                                      style="height: 12rem" required name="message">
-                            </textarea>
+                                <textarea class="form-control" id="message" style="height: 12rem" name="message"
+                                          required></textarea>
                                 <label for="message">Message</label>
                             </div>
                             <br/>
@@ -62,16 +75,16 @@ if (isset($_SESSION['user']) && isset($_SESSION['firstConnexion'])) {
                             </button>
                             <div>
                                 <?php
-                                if (isset($_SESSION['homeFormError'])) {
+                                if (isset($_SESSION['Error'])) {
                                     ?>
-                                    <p class='alert alert-danger'><?= $_SESSION['homeFormError'] ?></p>
+                                    <p class='alert alert-danger'><?= $_SESSION['Error'] ?></p>
                                     <?php
-                                    unset($_SESSION['homeFormError']);
-                                } elseif (isset($_SESSION['mailSucces'])) {
+                                    unset($_SESSION['Error']);
+                                } elseif (isset($_SESSION['Succes'])) {
                                     ?>
-                                    <p class='alert alert-success'><?= $_SESSION['mailSucces'] ?></p>
+                                    <p class='alert alert-success'><?= $_SESSION['Succes'] ?></p>
                                     <?php
-                                    unset($_SESSION['mailSucces']);
+                                    unset($_SESSION['Succes']);
                                 }
                                 ?>
                             </div>

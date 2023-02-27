@@ -1,10 +1,17 @@
+<?php
+$crsf = new Auth();
+$crsf = $crsf->crsf();
+?>
+
 <?php $title = 'CONNEXION'; ?>
 <?php $H1 = 'CONNEXION' ?>
+
 
 <?php ob_start(); ?>
 
 <div id="section-signIn" class=" mb-5 d-flex flex-column align-items-center ">
     <form action="index.php?action=signin" method="post" style="min-width: 300px" class="w-25 ">
+        <input type="hidden" name="crsf" value="<?= bin2hex($crsf) ?>">
         <div class="mb-3">
             <label for="email" class="form-label">Adresse email</label>
             <input type="email" class="form-control" name="email" required>
@@ -21,11 +28,11 @@
     </form>
     <div>
         <?php
-        if (isset($_SESSION['signInError'])) {
+        if (isset($_SESSION['Error'])) {
             ?>
-            <p class='alert alert-danger'><?= $_SESSION['signInError'] ?></p>
+            <p class='alert alert-danger'><?= $_SESSION['Error'] ?></p>
             <?php
-            unset($_SESSION['signInError']);
+            unset($_SESSION['Error']);
         }
         ?>
     </div>

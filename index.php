@@ -1,24 +1,25 @@
 <?php
-require_once('controllers/homePage.php');
-require_once('controllers/postsPage.php');
-require_once('controllers/loginPage.php');
+require_once('controllers/homeController.php');
+require_once('controllers/postsController.php');
+require_once('controllers/loginController.php');
 
 try {
 
+
     if (empty($_GET) || (isset($_GET['page']) && $_GET['page'] == "homepage")) {
-        $home = new HomePage();
+        $home = new Home();
         $home->getHomePage();
     } elseif (isset($_GET['page']) && $_GET['page'] == "signin") {
         $getSignIn = new Login();
-        $getSignIn->getSignIn();
+        $getSignIn->getSignInPage();
     } elseif (isset($_GET['page']) && $_GET['page'] == "signup") {
         $getSignUp = new Login();
-        $getSignUp->getSignUp();
+        $getSignUp->getSignUpPage();
     } elseif ((isset($_GET['page']) && $_GET['page'] == "postspage")) {
-        $posts = new PostsPage();
+        $posts = new Posts();
         $posts->getPostsPage();
     } elseif ((isset($_GET['action']) && $_GET['action'] == "form")) {
-        $form = new HomePage();
+        $form = new Home();
         $form->getMessage();
     } elseif ((isset($_GET['action']) && $_GET['action'] == "signup")) {
         $signUp = new login();
@@ -34,7 +35,6 @@ try {
     }
 
 } catch (Exception $e) {
-    $errorMessage = $e->getMessage();
-    echo $errorMessage;
+    die($e->getMessage());
 }
 

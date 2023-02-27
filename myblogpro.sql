@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : jeu. 16 fév. 2023 à 10:19
+-- Généré le : lun. 27 fév. 2023 à 08:08
 -- Version du serveur : 10.4.24-MariaDB
 -- Version de PHP : 8.1.6
 
@@ -20,10 +20,11 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `myblogpro`
 --
+CREATE DATABASE IF NOT EXISTS `myblogpro` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `myblogpro`;
 
 -- --------------------------------------------------------
-CREATE DATABASE IF NOT EXISTS `myblogpro`;
-USE `myblogpro`;
+
 --
 -- Structure de la table `comments`
 --
@@ -62,6 +63,14 @@ CREATE TABLE `roles` (
   `roleName` enum('admin','visitor') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Déchargement des données de la table `roles`
+--
+
+INSERT INTO `roles` (`idRole`, `roleName`) VALUES
+(1, 'admin'),
+(2, 'visitor');
+
 -- --------------------------------------------------------
 
 --
@@ -71,8 +80,26 @@ CREATE TABLE `roles` (
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `pseudo` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL
+  `email` varchar(50) NOT NULL,
+  `password` varchar(500) NOT NULL,
+  `nom` varchar(50) NOT NULL,
+  `prenom` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Déchargement des données de la table `users`
+--
+
+INSERT INTO `users` (`id`, `pseudo`, `email`, `password`, `nom`, `prenom`) VALUES
+(1, 'admin', 'jrdevelloppement@gmail.com', '$2y$10$ALhnSsQTAat4toF6nCl36eMXP08wa7hbcYY1dJ.rdo61j.SOtU2kC', 'admin', 'admin'),
+(2, 'rocky57', 'rocky57@gmail.com', '$2y$10$q2knRadrw6dJxsGwiqKBJOFizHFE7x6b450Aeu/U/mUIaK9y3Dk1K', 'balboa', 'rocky'),
+(3, 'niky21', 'niky21@gmail.com', '$2y$10$/fOHjV8auw5DzmTxf2Uk2uV8YC9CA0bLTj2LITOC8bjt9dVhBEvJG', 'hoku', 'niky'),
+(4, 'pauline3', 'pauline3@gmail.com', '$2y$10$K8DDx/XQ6E/ocFEj8RwnpeCkbFTpH2aP/gFuS/DJ6/bukldO6sEEK', 'Durand', 'Pauline'),
+(5, 'harryP10', 'harryP10@gmail.com', '$2y$10$Qmn4vq8yFG9EMd7AgMnh2OK8ZnRPHRbj5LUxrtzl/1eqaxxL3viQe', 'Potter', 'Harry'),
+(6, 'eric12', 'eric12@gmail.com', '$2y$10$rp3ZD.UY5FucrLQy9bcnA.dT9xlXzAWcOeRj3SBHG/6OQqHGx1YgS', 'André', 'Eric'),
+(8, 'eric121', 'eric121@gmail.com', '$2y$10$PTfshOu3P8bvQZK1SabPKOK9Pz.RQOrCqbJbEdOrcGC7iXQjpq/nm', 'André1', 'Eric1'),
+(10, 'eric1212', 'eric1212@gmail.com', '$2y$10$E6uT1iKNvZ9gPTBIqry.AOKnsapVN50WvyLAjx0fZXZ2bz3/buhbe', 'André12', 'Eric12'),
+(23, 'jack46', 'jack46@gmail.com', '$2y$10$T/S3pGGRlpNLV8H3Uh3q7urMdKreBxdblR2.DKaluC3LtCT2CICcW', 'Hor', 'Jack');
 
 -- --------------------------------------------------------
 
@@ -84,6 +111,19 @@ CREATE TABLE `users_roles` (
   `idUser` int(11) NOT NULL,
   `idRole` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Déchargement des données de la table `users_roles`
+--
+
+INSERT INTO `users_roles` (`idUser`, `idRole`) VALUES
+(1, 1),
+(2, 2),
+(3, 2),
+(4, 2),
+(5, 2),
+(10, 2),
+(23, 2);
 
 --
 -- Index pour les tables déchargées
@@ -115,7 +155,9 @@ ALTER TABLE `roles`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `id` (`id`);
+  ADD UNIQUE KEY `id` (`id`),
+  ADD UNIQUE KEY `pseudo` (`pseudo`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- Index pour la table `users_roles`
@@ -144,13 +186,13 @@ ALTER TABLE `posts`
 -- AUTO_INCREMENT pour la table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `idRole` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idRole` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- Contraintes pour les tables déchargées
