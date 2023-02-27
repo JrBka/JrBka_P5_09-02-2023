@@ -7,7 +7,7 @@ class User extends Database
     private int $visitor = 2;
 
     //User creation and registration in database
-    public function createUser()
+    public function createUser(): void
     {
         $this->getAllUsers();
         try {
@@ -71,7 +71,7 @@ class User extends Database
     }
 
     //Get one user and his role
-    public function getUser()
+    public function getUser(): void
     {
         try {
 
@@ -101,7 +101,7 @@ class User extends Database
     }
 
     // Get all users in database and their roles
-    public function getAllUsers()
+    public function getAllUsers(): void
     {
         try {
 
@@ -141,6 +141,6 @@ class User extends Database
 
 }
 
-;
+
 
 

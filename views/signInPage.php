@@ -11,7 +11,7 @@ $crsf = $crsf->crsf();
 
 <div id="section-signIn" class=" mb-5 d-flex flex-column align-items-center ">
     <form action="index.php?action=signin" method="post" style="min-width: 300px" class="w-25 ">
-        <input type="hidden" name="crsf" value="<?= bin2hex($crsf); ?>">
+        <input type="hidden" name="crsf" value="<?= $crsf; ?>">
         <div class="mb-3">
             <label for="email" class="form-label">Adresse email</label>
             <input type="email" class="form-control" name="email" required>

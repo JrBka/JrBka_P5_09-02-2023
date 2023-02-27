@@ -8,7 +8,7 @@ class Auth
     private string $key = '$My10k3n/S3cu4e.C0m';
 
     //  CRSF Token
-    public function crsf()
+    public function crsf(): string
     {
 
         try {
@@ -17,7 +17,7 @@ class Auth
 
             $_SESSION['crsf'] = bin2hex($crsf);
 
-            return $crsf;
+            return bin2hex($crsf);
 
         } catch (Exception $e) {
             echo $e->getMessage();

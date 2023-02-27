@@ -2,7 +2,7 @@
 
 class Posts
 {
-    public function getPostsPage()
+    public function getPostsPage(): void
     {
         require('views/postsPage.php');
     }
