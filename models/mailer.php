@@ -5,16 +5,13 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-abstract class Mailer
+class Mailer
 {
 
-    protected string $name;
-    protected string $email;
-    protected string $message;
-    protected $mail;
+    protected mixed $mail;
 
     // PHP MAILER function
-    public function sendMail(): void
+    public function sendMail($formContent): void
     {
         $this->mail = new PHPMailer(true);
 
@@ -24,8 +21,8 @@ abstract class Mailer
 
             //config smtp
             $this->mail->isSMTP();
-            $this->mail->Host = 'localhost';
-            $this->mail->Port = 1025;
+            $this->mail->Host = $_ENV['MAILER_HOST'];
+            $this->mail->Port = $_ENV['MAILER_PORT'];
 
             //charset
             $this->mail->CharSet = 'utf-8';
@@ -34,16 +31,16 @@ abstract class Mailer
             $this->mail->addAddress('myblogpro@local.fr');
 
             //sender
-            $this->mail->setFrom($this->name . $this->email);
+            $this->mail->setFrom($formContent->email);
 
             //content
             $this->mail->Subject = 'MyBlogPro';
-            $this->mail->Body = $this->message;
+            $this->mail->Body = $formContent->message;
 
             //send
             $this->mail->send();
 
-            $_SESSION['Succes'] = "Message envoyé avec succès";
+            $_SESSION['Success'] = "Message envoyé avec succès";
 
             header('Location:index.php#section-contact');
 

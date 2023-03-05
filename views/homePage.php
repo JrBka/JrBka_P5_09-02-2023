@@ -5,6 +5,7 @@
 
 <?php
 
+// Display success and error message
 if (isset($_SESSION['user']) && isset($_SESSION['atConnection']) && $_SESSION['atConnection'] === true) {
     ?>
     <div class="alert alert-success bg-light ">
@@ -23,21 +24,22 @@ if (isset($_SESSION['user']) && isset($_SESSION['atConnection']) && $_SESSION['a
     </div>
     <?php
     $_SESSION['destroy'] = false;
-} elseif (isset($_SESSION['TokenError']) && $_SESSION['TokenError'] === true) {
+} elseif (isset($_SESSION['tokenError']) && $_SESSION['tokenError'] === true) {
     ?>
     <div class="alert alert-danger bg-light text-center">
-        <h2 class="text-center">Veuillez vous authentifier !</h2>
+        <h2 class="text-center">Vous avez été déconnecté!<br> Veuillez vous authentifier à nouveau.</h2>
     </div>
     <?php
-    $_SESSION['TokenError'] = false;
+    $_SESSION['tokenError'] = false;
 }
 ?>
 
+<!--  About the developer -->
 <section id="section-presentation" class="d-flex flex-column align-items-center">
     <h2 class=" text-center">Le développeur dont vous avez besoin</h2>
     <p>BOUKRA Jérémy</p>
     <div id="img-container"><img src="views/img/photoProfil.jpg" alt="photo-de-profil"></div>
-    <a class="link" href="views/CV.pdf" target="_blank">Cliquez ici pour voir mon CV</a>
+    <span class="mt-3 text-center">Cliquez<a class="link text-primary" href="views/CV.pdf" target="_blank"> ici </a>pour voir mon CV</span>
 </section>
 <section id="section-contact" class="mt-5 mb-3">
     <div class="container px-4 px-lg-5">
@@ -45,12 +47,14 @@ if (isset($_SESSION['user']) && isset($_SESSION['atConnection']) && $_SESSION['a
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <h2 class="text-center">Un projet en tête ? Contactez moi !</br> Je répondrais dans les plus brefs
                     délais !</h2>
+
+                <!--  Contact form -->
                 <div class="my-5">
                     <form id="contactForm" action="index.php?action=form"
                           method="post">
                         <div class="form-floating">
                             <input class="form-control" id="name" type="text" name="name"
-                                   value="<?php if ($_SESSION['LOGGED_USER'] === true) {
+                                   value="<?php if (!empty($_SESSION['user'])) {
                                        echo htmlspecialchars($_SESSION['user']->pseudo);
                                    } ?>"
                                    required/>
@@ -58,7 +62,7 @@ if (isset($_SESSION['user']) && isset($_SESSION['atConnection']) && $_SESSION['a
                         </div>
                         <div class="form-floating">
                             <input class="form-control" id="email" type="email" name="email"
-                                   value="<?php if ($_SESSION['LOGGED_USER'] === true) {
+                                   value="<?php if (!empty($_SESSION['user'])) {
                                        echo htmlspecialchars($_SESSION['user']->email);
                                    } ?>" required/>
                             <label for="email">Email</label>
@@ -73,6 +77,9 @@ if (isset($_SESSION['user']) && isset($_SESSION['atConnection']) && $_SESSION['a
                         <button class="btn btn-warning text-uppercase " id="submitButton" type="submit"
                                 name="submit">Envoyer
                         </button>
+                    </form>
+
+                        <!-- Display success or error message about contact form -->
                         <div>
                             <?php
                             if (isset($_SESSION['Error'])) {
@@ -80,15 +87,14 @@ if (isset($_SESSION['user']) && isset($_SESSION['atConnection']) && $_SESSION['a
                                 <p class='alert alert-danger'><?= $_SESSION['Error']; ?></p>
                                 <?php
                                 unset($_SESSION['Error']);
-                            } elseif (isset($_SESSION['Succes'])) {
+                            } elseif (isset($_SESSION['Success'])) {
                                 ?>
-                                <p class='alert alert-success'><?= $_SESSION['Succes']; ?></p>
+                                <p class='alert alert-success'><?= $_SESSION['Success']; ?></p>
                                 <?php
-                                unset($_SESSION['Succes']);
+                                unset($_SESSION['Success']);
                             }
                             ?>
                         </div>
-                    </form>
                 </div>
             </div>
         </div>

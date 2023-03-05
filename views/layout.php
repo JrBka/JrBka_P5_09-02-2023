@@ -44,7 +44,7 @@
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
                                         href="index.php?page=homepage#section-contact">CONTACT</a></li>
                 <?php
-                if ($_SESSION['LOGGED_USER'] === true) {
+                if (!empty($_SESSION['user'] )) {
                     ?>
                     <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
                                             href="index.php?action=logout">DECONNEXION</a></li>
@@ -93,7 +93,7 @@
                         <div class="logo"></div>
                     </a></li>
                 <?php
-                if ($_SESSION['LOGGED_USER'] === true) {
+                if (!empty($_SESSION['user'])) {
                     ?>
                     <li class="footer-li">
                         <a class="link" href="index.php?action=logout">Déconnexion</a>

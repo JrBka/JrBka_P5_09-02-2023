@@ -1,29 +1,19 @@
 <?php
 session_start();
-$_SESSION['LOGGED_USER'] = false;
+
+require_once('models/mailer.php');
 
 
-require_once('models/mailerModel.php');
-require_once('controllers/authController.php');
 
-
-class Home extends Mailer
+class Home
 {
 
-    // Get homePage and check ID token if $_SESSION['user'] exists
+    // Get homePage
     public function getHomePage(): void
     {
-        if (isset($_SESSION['user'])) {
-
-            $verifToken = new Auth();
-            $verifToken->verifToken();
 
             require('views/homePage.php');
 
-        } else {
-
-            require('views/homePage.php');
-        }
     }
 
     // Send email via PHP MAILER
@@ -38,12 +28,14 @@ class Home extends Mailer
                 header('Location:index.php#section-contact');
             } else {
 
-                $form = new Home();
-                $form->name = $_POST['name'];
-                $form->email = $_POST['email'];
-                $form->message = $_POST['message'];
+                $form = new Mailer();
+                $formContent = (object)[
+                    'name'=>$_POST['name'],
+                    'email' => $_POST['email'],
+                    'message' => $_POST['message']
+                ];
 
-                $form->sendMail();
+                $form->sendMail($formContent);
 
             }
         } catch (Exception $error) {

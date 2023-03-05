@@ -1,5 +1,5 @@
 <?php
-require_once('models/userModel.php');
+require_once('models/user.php');
 require_once('controllers/authController.php');
 
 class Login
@@ -12,16 +12,19 @@ class Login
     private string $pwd;
 
 
+    // Display signIn page
     public function getSignInPage(): void
     {
         require('views/signInPage.php');
     }
 
+    // Display signUp page
     public function getSignUpPage(): void
     {
         require('views/signUpPage.php');
     }
 
+    // Logout
     public function logout(): void
     {
         session_destroy();
@@ -32,69 +35,68 @@ class Login
         header('Location:index.php');
     }
 
-    // Account connection, check CRSF token in form
+    // Account connection
     public function signIn(): void
     {
-        try {
-            if (empty($_SESSION['crsf']) || empty($_POST['crsf']) || $_SESSION['crsf'] != $_POST['crsf']) {
 
-                throw new Exception('Le token n\'a pas pu être authentifié ');
+        try {
+
+            if (empty($_SESSION['csrf']) || empty($_POST['csrf']) || $_SESSION['csrf'] != $_POST['csrf']) {
+
+                throw new Exception('Le token csrf n\'a pas pu être authentifié ');
+
+            }elseif (empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) || empty($_POST['pwd'])) {
+
+                throw new Exception('Tous les champs sont requis et doivent être valide!');
+
+            }elseif ($_SESSION['csrf_time'] < time() - 300){
+
+                throw new Exception('Le token csrf à expiré !');
+
             } else {
 
-                if (empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) || empty($_POST['pwd'])) {
+                $loginValues = new Login();
+                $loginValues->email = $_POST['email'];
+                $loginValues->pwd = $_POST['pwd'];
 
-                    throw new Exception('Tous les champs sont requis et doivent être valide!');
+                $uppercase = preg_match('@[A-Z]@', $loginValues->pwd);
+                $lowercase = preg_match('@[a-z]@', $loginValues->pwd);
+                $number = preg_match('@[0-9]@', $loginValues->pwd);
+                $specialChars = preg_match('@[^\w]@', $loginValues->pwd);
+
+                if (!$uppercase || !$lowercase || !$number || !$specialChars || strlen($loginValues->pwd) < 8) {
+
+                    throw new Exception('Le mot de passe doit comporter au moins 8 caractères et doit inclure au moins une lettre majuscule, un chiffre et un caractère spécial.');
 
                 } else {
 
-                    $loginValues = new Login();
-                    $loginValues->email = $_POST['email'];
-                    $loginValues->pwd = $_POST['pwd'];
+                    $getUser = new User();
+                    $user = $getUser->getUser($loginValues->email);
 
-                    $uppercase = preg_match('@[A-Z]@', $loginValues->pwd);
-                    $lowercase = preg_match('@[a-z]@', $loginValues->pwd);
-                    $number = preg_match('@[0-9]@', $loginValues->pwd);
-                    $specialChars = preg_match('@[^\w]@', $loginValues->pwd);
+                    if (empty($user)) {
 
-                    if (!$uppercase || !$lowercase || !$number || !$specialChars || strlen($loginValues->pwd) < 8) {
+                        throw new Exception('Utilisateur introuvable');
 
-                        throw new Exception('Le mot de passe doit comporter au moins 8 caractères et doit inclure au moins une lettre majuscule, un chiffre et un caractère spécial.');
+                    } elseif (!password_verify($loginValues->pwd, $user->password)) {
+
+                        throw new Exception('Mot de passe ou email incorrect');
 
                     } else {
 
-                        $getUser = new User();
-                        $getUser->getUser();
+                        $_SESSION['user']=$user;
 
-                        if (!isset($_SESSION['user'])) {
-
-                            throw new Exception('Utilisateur introuvable');
-
-                        } else {
-                            if ($loginValues->email != $_SESSION['user']->email || !password_verify($loginValues->pwd, $_SESSION['user']->password)) {
-
-                                unset($_SESSION['user']);
-                                throw new Exception('Mot de passe ou email incorrect');
-
-                            } else {
-
-                                $createToken = new Auth();
-                                $createToken->createToken();
-
-
-                                $_SESSION['atConnection'] = true;
-
-                                header('Location:index.php');
-                            }
-                        }
+                        $createToken = new Auth();
+                        $createToken->createToken();
+                                
+                        $_SESSION['atConnection'] = true;
+                        header('Location:index.php');
                     }
-
                 }
             }
         } catch (Exception $e) {
             $_SESSION['Error'] = $e->getMessage();
             header('Location:index.php?page=signin#section-signIn');
         }
-
 
     }
 
@@ -131,7 +133,7 @@ class Login
 
                     $signUpValues->pwd = password_hash($signUpValues->pwd, PASSWORD_DEFAULT);
 
-                    $_SESSION['user'] = (object)[
+                    $user = (object)[
                         'name' => $signUpValues->name,
                         'surname' => $signUpValues->surname,
                         'pseudo' => $signUpValues->pseudo,
@@ -139,8 +141,25 @@ class Login
                         'pwd' => $signUpValues->pwd
                     ];
 
-                    $createUser = new User();
-                    $createUser->createUser();
+                    $users = new User();
+                    $allUsers = $users->getAllUsers();
+
+                    foreach ($allUsers as $value) {
+                        if ($value['pseudo'] == $user->pseudo) {
+
+                            throw new Exception('Ce pseudo est déjà utilisé');
+
+                        } elseif ($value['email'] == $user->email) {
+
+                            throw new Exception('Cet email est déjà utilisé');
+
+                        }
+                    }
+
+
+                    $users->createUser($user);
+
+                    $_SESSION['user'] = $user;
 
                     $createToken = new Auth();
                     $createToken->createToken();
