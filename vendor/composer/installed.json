@@ -1,6 +1,7 @@
 {
     "packages": [
         {
+<<<<<<< HEAD
             "name": "graham-campbell/result-type",
             "version": "v1.1.1",
             "version_normalized": "1.1.1.0",
@@ -66,6 +67,8 @@
             "install-path": "../graham-campbell/result-type"
         },
         {
+=======
+>>>>>>> 3984657f22f101b62e546ba4d5f30f39f6cc37aa
             "name": "phpmailer/phpmailer",
             "version": "v6.7.1",
             "version_normalized": "6.7.1.0",
@@ -147,6 +150,7 @@
                 }
             ],
             "install-path": "../phpmailer/phpmailer"
+<<<<<<< HEAD
         },
         {
             "name": "phpoption/phpoption",
@@ -569,6 +573,8 @@
                 }
             ],
             "install-path": "../vlucas/phpdotenv"
+=======
+>>>>>>> 3984657f22f101b62e546ba4d5f30f39f6cc37aa
         }
     ],
     "dev": true,

@@ -1,12 +1,16 @@
+<<<<<<< HEAD
 <?php
 $csrf = new Auth();
 $csrf = $csrf->csrf();
 ?>
+=======
+>>>>>>> 3984657f22f101b62e546ba4d5f30f39f6cc37aa
 <?php $title = 'Posts'; ?>
 <?php $H1 = 'MES DERNIERS POSTS'; ?>
 
 <?php ob_start(); ?>
 
+<<<<<<< HEAD
 <section id="section-addPost">
     <h2 class="text-center mb-4">AJOUTER UN POST</h2>
     <?php if (!isset($_SESSION['user'])) {
@@ -95,6 +99,12 @@ $csrf = $csrf->csrf();
 </section>
 
 
+=======
+<section>
+    <?= 'ok'; ?>
+</section>
+
+>>>>>>> 3984657f22f101b62e546ba4d5f30f39f6cc37aa
 <?php $content = ob_get_clean(); ?>
 
 <?php require('layout.php'); ?>

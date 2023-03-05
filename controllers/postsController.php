@@ -1,5 +1,6 @@
 <?php
 
+<<<<<<< HEAD
 require_once('models/post.php');
 
 
@@ -57,5 +58,13 @@ class Posts
     }
 
 
+=======
+class Posts
+{
+    public function getPostsPage(): void
+    {
+        require('views/postsPage.php');
+    }
+>>>>>>> 3984657f22f101b62e546ba4d5f30f39f6cc37aa
 }
 

@@ -44,7 +44,11 @@
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
                                         href="index.php?page=homepage#section-contact">CONTACT</a></li>
                 <?php
+<<<<<<< HEAD
                 if (!empty($_SESSION['user'] )) {
+=======
+                if ($_SESSION['LOGGED_USER'] === true) {
+>>>>>>> 3984657f22f101b62e546ba4d5f30f39f6cc37aa
                     ?>
                     <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
                                             href="index.php?action=logout">DECONNEXION</a></li>
@@ -93,7 +97,11 @@
                         <div class="logo"></div>
                     </a></li>
                 <?php
+<<<<<<< HEAD
                 if (!empty($_SESSION['user'])) {
+=======
+                if ($_SESSION['LOGGED_USER'] === true) {
+>>>>>>> 3984657f22f101b62e546ba4d5f30f39f6cc37aa
                     ?>
                     <li class="footer-li">
                         <a class="link" href="index.php?action=logout">Déconnexion</a>

@@ -2,6 +2,7 @@
 require_once('controllers/homeController.php');
 require_once('controllers/postsController.php');
 require_once('controllers/loginController.php');
+<<<<<<< HEAD
 require_once('controllers/middleWare.php');
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
@@ -13,6 +14,11 @@ try {
     $check = new MiddleWare();
     $check->checkToken();
     $check->checkInactivity();
+=======
+
+try {
+
+>>>>>>> 3984657f22f101b62e546ba4d5f30f39f6cc37aa
 
     if (empty($_GET) || (isset($_GET['page']) && $_GET['page'] == "homepage")) {
         $home = new Home();
@@ -38,9 +44,12 @@ try {
     } elseif ((isset($_GET['action']) && $_GET['action'] == "logout")) {
         $logout = new login();
         $logout->logout();
+<<<<<<< HEAD
     } elseif ((isset($_GET['action']) && $_GET['action'] == "addPost")) {
         $addPost = new Posts();
         $addPost->addPost();
+=======
+>>>>>>> 3984657f22f101b62e546ba4d5f30f39f6cc37aa
     } else {
         throw new Exception('Error 404 Page introuvable');
     }

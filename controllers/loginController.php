@@ -1,5 +1,9 @@
 <?php
+<<<<<<< HEAD
 require_once('models/user.php');
+=======
+require_once('models/userModel.php');
+>>>>>>> 3984657f22f101b62e546ba4d5f30f39f6cc37aa
 require_once('controllers/authController.php');
 
 class Login
@@ -32,6 +36,7 @@ class Login
         header('Location:index.php');
     }
 
+<<<<<<< HEAD
     // Account connection, check CSRF token in form
     public function signIn(): void
     {
@@ -39,6 +44,15 @@ class Login
             if (empty($_SESSION['csrf']) || empty($_POST['csrf']) || $_SESSION['csrf'] != $_POST['csrf']) {
 
                 throw new Exception('Le token csrf n\'a pas pu être authentifié ');
+=======
+    // Account connection, check CRSF token in form
+    public function signIn(): void
+    {
+        try {
+            if (empty($_SESSION['crsf']) || empty($_POST['crsf']) || $_SESSION['crsf'] != $_POST['crsf']) {
+
+                throw new Exception('Le token n\'a pas pu être authentifié ');
+>>>>>>> 3984657f22f101b62e546ba4d5f30f39f6cc37aa
             } else {
 
                 if (empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) || empty($_POST['pwd'])) {
@@ -63,24 +77,43 @@ class Login
                     } else {
 
                         $getUser = new User();
+<<<<<<< HEAD
                         $user = $getUser->getUser($loginValues->email);
 
                         if (empty($user)) {
+=======
+                        $getUser->getUser();
+
+                        if (!isset($_SESSION['user'])) {
+>>>>>>> 3984657f22f101b62e546ba4d5f30f39f6cc37aa
 
                             throw new Exception('Utilisateur introuvable');
 
                         } else {
+<<<<<<< HEAD
                             if (!password_verify($loginValues->pwd, $user->password)) {
 
+=======
+                            if ($loginValues->email != $_SESSION['user']->email || !password_verify($loginValues->pwd, $_SESSION['user']->password)) {
+
+                                unset($_SESSION['user']);
+>>>>>>> 3984657f22f101b62e546ba4d5f30f39f6cc37aa
                                 throw new Exception('Mot de passe ou email incorrect');
 
                             } else {
 
+<<<<<<< HEAD
                                 $_SESSION['user']=$user;
 
                                 $createToken = new Auth();
                                 $createToken->createToken();
                                 
+=======
+                                $createToken = new Auth();
+                                $createToken->createToken();
+
+
+>>>>>>> 3984657f22f101b62e546ba4d5f30f39f6cc37aa
                                 $_SESSION['atConnection'] = true;
 
                                 header('Location:index.php');
@@ -95,6 +128,10 @@ class Login
             header('Location:index.php?page=signin#section-signIn');
         }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3984657f22f101b62e546ba4d5f30f39f6cc37aa
     }
 
     // Account creation
@@ -130,7 +167,11 @@ class Login
 
                     $signUpValues->pwd = password_hash($signUpValues->pwd, PASSWORD_DEFAULT);
 
+<<<<<<< HEAD
                     $user = (object)[
+=======
+                    $_SESSION['user'] = (object)[
+>>>>>>> 3984657f22f101b62e546ba4d5f30f39f6cc37aa
                         'name' => $signUpValues->name,
                         'surname' => $signUpValues->surname,
                         'pseudo' => $signUpValues->pseudo,
@@ -138,6 +179,7 @@ class Login
                         'pwd' => $signUpValues->pwd
                     ];
 
+<<<<<<< HEAD
                     $users = new User();
                     $allUsers = $users->getAllUsers();
 
@@ -157,6 +199,10 @@ class Login
                     $users->createUser($user);
 
                     $_SESSION['user'] = $user;
+=======
+                    $createUser = new User();
+                    $createUser->createUser();
+>>>>>>> 3984657f22f101b62e546ba4d5f30f39f6cc37aa
 
                     $createToken = new Auth();
                     $createToken->createToken();

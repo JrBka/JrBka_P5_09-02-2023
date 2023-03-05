@@ -23,6 +23,7 @@ if (isset($_SESSION['user']) && isset($_SESSION['atConnection']) && $_SESSION['a
     </div>
     <?php
     $_SESSION['destroy'] = false;
+<<<<<<< HEAD
 } elseif (isset($_SESSION['tokenError']) && $_SESSION['tokenError'] === true) {
     ?>
     <div class="alert alert-danger bg-light text-center">
@@ -30,6 +31,15 @@ if (isset($_SESSION['user']) && isset($_SESSION['atConnection']) && $_SESSION['a
     </div>
     <?php
     $_SESSION['tokenError'] = false;
+=======
+} elseif (isset($_SESSION['TokenError']) && $_SESSION['TokenError'] === true) {
+    ?>
+    <div class="alert alert-danger bg-light text-center">
+        <h2 class="text-center">Veuillez vous authentifier !</h2>
+    </div>
+    <?php
+    $_SESSION['TokenError'] = false;
+>>>>>>> 3984657f22f101b62e546ba4d5f30f39f6cc37aa
 }
 ?>
 
@@ -37,7 +47,11 @@ if (isset($_SESSION['user']) && isset($_SESSION['atConnection']) && $_SESSION['a
     <h2 class=" text-center">Le développeur dont vous avez besoin</h2>
     <p>BOUKRA Jérémy</p>
     <div id="img-container"><img src="views/img/photoProfil.jpg" alt="photo-de-profil"></div>
+<<<<<<< HEAD
     <span class="mt-3 text-center">Cliquez<a class="link text-primary" href="views/CV.pdf" target="_blank"> ici </a>pour voir mon CV</span>
+=======
+    <a class="link" href="views/CV.pdf" target="_blank">Cliquez ici pour voir mon CV</a>
+>>>>>>> 3984657f22f101b62e546ba4d5f30f39f6cc37aa
 </section>
 <section id="section-contact" class="mt-5 mb-3">
     <div class="container px-4 px-lg-5">
@@ -50,7 +64,11 @@ if (isset($_SESSION['user']) && isset($_SESSION['atConnection']) && $_SESSION['a
                           method="post">
                         <div class="form-floating">
                             <input class="form-control" id="name" type="text" name="name"
+<<<<<<< HEAD
                                    value="<?php if (!empty($_SESSION['user'])) {
+=======
+                                   value="<?php if ($_SESSION['LOGGED_USER'] === true) {
+>>>>>>> 3984657f22f101b62e546ba4d5f30f39f6cc37aa
                                        echo htmlspecialchars($_SESSION['user']->pseudo);
                                    } ?>"
                                    required/>
@@ -58,7 +76,11 @@ if (isset($_SESSION['user']) && isset($_SESSION['atConnection']) && $_SESSION['a
                         </div>
                         <div class="form-floating">
                             <input class="form-control" id="email" type="email" name="email"
+<<<<<<< HEAD
                                    value="<?php if (!empty($_SESSION['user'])) {
+=======
+                                   value="<?php if ($_SESSION['LOGGED_USER'] === true) {
+>>>>>>> 3984657f22f101b62e546ba4d5f30f39f6cc37aa
                                        echo htmlspecialchars($_SESSION['user']->email);
                                    } ?>" required/>
                             <label for="email">Email</label>
@@ -80,11 +102,19 @@ if (isset($_SESSION['user']) && isset($_SESSION['atConnection']) && $_SESSION['a
                                 <p class='alert alert-danger'><?= $_SESSION['Error']; ?></p>
                                 <?php
                                 unset($_SESSION['Error']);
+<<<<<<< HEAD
                             } elseif (isset($_SESSION['Success'])) {
                                 ?>
                                 <p class='alert alert-success'><?= $_SESSION['Success']; ?></p>
                                 <?php
                                 unset($_SESSION['Success']);
+=======
+                            } elseif (isset($_SESSION['Succes'])) {
+                                ?>
+                                <p class='alert alert-success'><?= $_SESSION['Succes']; ?></p>
+                                <?php
+                                unset($_SESSION['Succes']);
+>>>>>>> 3984657f22f101b62e546ba4d5f30f39f6cc37aa
                             }
                             ?>
                         </div>

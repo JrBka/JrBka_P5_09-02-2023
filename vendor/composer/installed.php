@@ -19,6 +19,7 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+<<<<<<< HEAD
         'graham-campbell/result-type' => array(
             'pretty_version' => 'v1.1.1',
             'version' => '1.1.1.0',
@@ -28,6 +29,8 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+=======
+>>>>>>> 3984657f22f101b62e546ba4d5f30f39f6cc37aa
         'phpmailer/phpmailer' => array(
             'pretty_version' => 'v6.7.1',
             'version' => '6.7.1.0',
@@ -37,6 +40,7 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+<<<<<<< HEAD
         'phpoption/phpoption' => array(
             'pretty_version' => '1.9.1',
             'version' => '1.9.1.0',
@@ -82,5 +86,7 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+=======
+>>>>>>> 3984657f22f101b62e546ba4d5f30f39f6cc37aa
     ),
 );
