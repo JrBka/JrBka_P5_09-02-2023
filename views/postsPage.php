@@ -82,11 +82,11 @@ $csrf = $csrf->csrf();
                 <strong><?php $creationDate = explode(" ", $value->creationDate);
                     echo date('d-m-Y', strtotime(htmlspecialchars($creationDate[0]))); ?></strong> à
                 <strong><?= htmlspecialchars($creationDate[1]); ?></strong>
-                <?php if ($value->lastModification != null) {
+                <?php if ($value->lastModification !== null) {
                     $lastModification = explode(" ", $value->lastModification);
                     echo 'et modifié le <strong>' . date('d-m-Y', strtotime(htmlspecialchars($lastModification[0]))) . '</strong> à <strong>' . htmlspecialchars($lastModification[1]) . '</strong>';
                 } ?>
-                par <strong><?php if (isset($value->author) && $value->author != null ){echo htmlspecialchars($value->author);}else{ echo htmlspecialchars($value->pseudo);} ?></strong></p>
+                par <strong><?php if ( isset($value->author) && $value->author !== null ){echo htmlspecialchars($value->author);}else{ echo htmlspecialchars($value->pseudo);} ?></strong></p>
             <h4 class="text-center px-2"><?= htmlspecialchars($value->title); ?></h4>
             <p class="text-center px-2"><?= htmlspecialchars($value->chapo);
                  ?></p>

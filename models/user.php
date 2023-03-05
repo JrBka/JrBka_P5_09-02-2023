@@ -8,7 +8,7 @@ class User extends Database
     const VISITOR = 2;
 
     // Creation and registration user in database
-    public function createUser($user): void
+    public function createUser(object $user): void
     {
 
             $this->getConnection();
@@ -49,7 +49,7 @@ class User extends Database
 
 
     //Get one user and his role
-    public function getUser($email): mixed
+    public function getUser(string $email): mixed
     {
 
             $this->getConnection();

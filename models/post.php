@@ -33,7 +33,7 @@ class Post extends Database
     }
 
     // Get all posts in database
-    public function getAllPosts()
+    public function getAllPosts() :void
     {
 
         try {
@@ -96,7 +96,7 @@ class Post extends Database
     }
 
     // Update post
-    public function updatePost($formUpdateContent):void{
+    public function updatePost( object $formUpdateContent):void{
 
         $this->getConnection();
 

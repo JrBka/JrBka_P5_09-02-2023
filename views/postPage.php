@@ -19,7 +19,7 @@ $csrf = $csrf->csrf();
                         <input type="hidden" name="csrf" value="<?= $csrf; ?>" required>
                         <div class="mb-3">
                             <label for="author" class="form-label">Auteur</label>
-                            <input type="text" class="form-control" id="author" name="author" value=<?php if (isset($_SESSION['post']->author) && $_SESSION['post']->author != null ){echo htmlspecialchars($_SESSION['post']->author);}else{ echo htmlspecialchars($_SESSION['post']->pseudo);} ?> required>
+                            <input type="text" class="form-control" id="author" name="author" value=<?php if (isset($_SESSION['post']->author) && $_SESSION['post']->author !== null ){echo htmlspecialchars($_SESSION['post']->author);}else{ echo htmlspecialchars($_SESSION['post']->pseudo);} ?> required>
                         </div>
                         <div class="mb-3">
                             <label for="title" class="form-label">Titre</label>
@@ -46,11 +46,11 @@ $csrf = $csrf->csrf();
                         <strong><?php $creationDate = explode(" ", $_SESSION['post']->creationDate);
                             echo date('d-m-Y', strtotime(htmlspecialchars($creationDate[0]))); ?></strong> à
         <strong><?= htmlspecialchars($creationDate[1]); ?></strong>
-        <?php if ($_SESSION['post']->lastModification != null) {
+        <?php if ($_SESSION['post']->lastModification !== null) {
             $lastModification = explode(" ", $_SESSION['post']->lastModification);
             echo 'et modifié le <strong>' . date('d-m-Y', strtotime(htmlspecialchars($lastModification[0]))) . '</strong> à <strong>' . htmlspecialchars($lastModification[1]) . '</strong>';
         } ?>
-        par <strong><?php if (isset($_SESSION['post']->author) && $_SESSION['post']->author != null ){echo htmlspecialchars($_SESSION['post']->author);}else{ echo htmlspecialchars($_SESSION['post']->pseudo);} ?></strong></p>
+        par <strong><?php if (isset($_SESSION['post']->author) && $_SESSION['post']->author !== null ){echo htmlspecialchars($_SESSION['post']->author);}else{ echo htmlspecialchars($_SESSION['post']->pseudo);} ?></strong></p>
         <h4 class="text-center px-2"><?= htmlspecialchars($_SESSION['post']->title); ?></h4>
         <p class="text-center px-2"><?= htmlspecialchars($_SESSION['post']->content); ?></p>
 
@@ -103,7 +103,7 @@ $csrf = $csrf->csrf();
                     <strong><?php $creationDate = explode(" ", $value->creationDate);
                         echo date('d-m-Y', strtotime(htmlspecialchars($creationDate[0]))); ?></strong> à
                     <strong><?= htmlspecialchars($creationDate[1]); ?></strong>
-                    <?php if ($value->lastModification != null) {
+                    <?php if ($value->lastModification !== null) {
                         $lastModification = explode(" ", $value->lastModification);
                         echo 'et modifié le <strong>' . date('d-m-Y', strtotime(htmlspecialchars($lastModification[0]))) . '</strong> à <strong>' . htmlspecialchars($lastModification[1]) . '</strong>';
                     } ?>
@@ -136,3 +136,5 @@ $csrf = $csrf->csrf();
 <?php $content = ob_get_clean(); ?>
 
 <?php require('layout.php'); ?>
+
+

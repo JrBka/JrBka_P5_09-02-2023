@@ -11,7 +11,7 @@ class Mailer
     protected mixed $mail;
 
     // PHP MAILER function
-    public function sendMail($formContent): void
+    public function sendMail( object $formContent): void
     {
         $this->mail = new PHPMailer(true);
 
