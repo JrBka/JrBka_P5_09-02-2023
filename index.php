@@ -2,6 +2,7 @@
 require_once('controllers/homeController.php');
 require_once('controllers/postsController.php');
 require_once('controllers/loginController.php');
+require_once('controllers/commentsController.php');
 require_once('controllers/middleWare.php');
 
 // To use .env
@@ -52,6 +53,9 @@ try {
     }elseif ((isset($_GET['action']) && $_GET['action'] == "deletePost")) {
         $deletePosts = new Posts();
         $deletePosts->getDeletePost();
+    }elseif ((isset($_GET['action']) && $_GET['action'] == "addComment")) {
+        $addComment = new Comments();
+        $addComment->addComment();
     } else {
         throw new Exception('Error 404 Page introuvable');
     }

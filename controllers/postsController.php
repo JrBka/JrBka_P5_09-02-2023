@@ -1,6 +1,7 @@
 <?php
 
 require_once('models/post.php');
+require_once('controllers/commentsController.php');
 
 
 class Posts
@@ -18,9 +19,9 @@ class Posts
 
                 throw new Exception('Le titre doit être renseigné et ne doit pas excéder 100 caractères');
 
-            }elseif (strlen($_POST['chapo']) > 250){
+            }elseif (strlen($_POST['chapo']) > 500){
 
-                throw new Exception('Le chapo doit être renseigné et ne doit pas excéder 250 caractères');
+                throw new Exception('Le chapo doit être renseigné et ne doit pas excéder 500 caractères');
 
             }elseif (empty($_SESSION['csrf']) || empty($_POST['csrf']) || $_SESSION['csrf'] != $_POST['csrf']) {
 
@@ -75,8 +76,17 @@ class Posts
     {
         try {
 
+            if (isset($_POST['postId'])){
+                $_SESSION['post']=(object)['postId'=>$_POST['postId']];
+            }
+
+
             $getPost = new Post();
             $getPost->getPost();
+
+
+            $getComments = new Comments();
+            $getComments->getComments();
 
             $_SESSION['formUpdate'] = false;
 

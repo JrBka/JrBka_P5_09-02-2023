@@ -11,7 +11,6 @@ class Post extends Database
 
         $this->getConnection();
 
-        try {
 
             $query = "INSERT INTO posts (userId,content,title,chapo) VALUES (:userId,:content,:title,:chapo)";
 
@@ -26,9 +25,6 @@ class Post extends Database
                 ]
             ) or throw new Exception();
 
-        } catch (Exception $e) {
-            echo $e->getMessage();
-        }
 
     }
 
@@ -36,7 +32,6 @@ class Post extends Database
     public function getAllPosts() :void
     {
 
-        try {
 
             $this->getConnection();
 
@@ -59,23 +54,17 @@ class Post extends Database
 
             }
 
-        } catch (Exception $e) {
-
-            $_SESSION['Error'] = $e->getMessage();
-            header('Location:index.php?page=postspage');
-        }
-
     }
 
     // Get one post in database
     public function getPost():void{
-        try {
+
 
             $this->getConnection();
 
             $query = "SELECT userId,postId,title,chapo,content,creationDate,lastModification,pseudo,author FROM posts INNER JOIN users WHERE posts.userId= users.id AND postId = :postId";
             $getPost = $this->connection->prepare($query);
-            $getPost->execute(['postId'=>$_POST['postId']]) or throw new Exception();
+            $getPost->execute(  ['postId'=>$_SESSION['post']->postId]) or throw new Exception();
             $fetch = $getPost->fetchObject();
 
             if (is_bool($fetch) && !$fetch) {
@@ -88,11 +77,6 @@ class Post extends Database
 
             }
 
-        } catch (Exception $e) {
-
-            $_SESSION['Error'] = $e->getMessage();
-            header('Location:index.php?page=postpage');
-        }
     }
 
     // Update post
@@ -100,7 +84,7 @@ class Post extends Database
 
         $this->getConnection();
 
-        try {
+
 
             $query = "UPDATE posts SET content = :content, title = :title, chapo = :chapo, author = :author, lastModification = :lastModification WHERE postId = :postId";
 
@@ -117,9 +101,6 @@ class Post extends Database
                 ]
             ) or throw new Exception();
 
-        } catch (Exception $e) {
-            echo $e->getMessage();
-        }
 
     }
 
@@ -128,7 +109,7 @@ class Post extends Database
 
         $this->getConnection();
 
-        try {
+
 
             $query = "DELETE FROM posts WHERE postId = :postId";
 
@@ -139,10 +120,7 @@ class Post extends Database
                 ]
             ) or throw new Exception();
 
-        } catch (Exception $e) {
-            $_SESSION['Error'] = $e->getMessage();
-            header('Location:index.php?page=postpage');
-        }
+
 
     }
 

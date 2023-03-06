@@ -158,6 +158,7 @@ class Login
 
 
                     $users->createUser($user);
+                    $user = $users->getUser($user->email);
 
                     $_SESSION['user'] = $user;
 
