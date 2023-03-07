@@ -5,15 +5,17 @@
 class Auth
 {
 
-    //  CRSF Token
-    public function csrf(): string
+    //  Create CSRF Token
+    public function csrf():string
     {
 
         try {
 
             $csrf = random_bytes(255);
 
+
             $_SESSION['csrf'] = bin2hex($csrf);
+            $_SESSION['csrf_time'] = time();
 
             return bin2hex($csrf);
 
@@ -23,7 +25,7 @@ class Auth
 
     }
 
-    // ID Token
+    // Create ID Token and insert into a cookie
     public function createToken(): void
     {
         try {

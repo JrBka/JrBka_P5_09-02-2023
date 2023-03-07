@@ -30,13 +30,17 @@ class MiddleWare
     // Check activity
     public function checkInactivity():void{
 
-        $maxInactivity = time() - 1800;
+        $maxInactivity = time() - 3600;
         try {
 
             if (isset($_SESSION)){
+
                 if (!isset($_SESSION['time'])){
+
                     $_SESSION['time'] = time();
+
                 }elseif ($_SESSION['time'] < $maxInactivity){
+
                     setcookie('TOKEN');
                     session_destroy();
 

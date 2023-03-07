@@ -4,8 +4,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <meta name="description" content=""/>
-    <meta name="author" content=""/>
+    <meta name="description" content="Blog développement PHP"/>
     <title><?= $title; ?></title>
     <link rel="icon" href="favicon.ico"/>
     <!-- Font Awesome icons (free version)-->
@@ -37,14 +36,19 @@
             <ul class="navbar-nav ms-auto py-4 py-lg-0">
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="index.php?page=homepage">ACCUEIL</a>
                 </li>
-                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
-                                        href="index.php?page=homepage#section-presentation">À PROPOS</a></li>
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="index.php?page=postspage">POSTS</a>
                 </li>
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
                                         href="index.php?page=homepage#section-contact">CONTACT</a></li>
                 <?php
                 if (!empty($_SESSION['user'] )) {
+                    if (isset($_SESSION['user']->idRole) && $_SESSION['user']->idRole === 1) {
+                        ?>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
+                                                href="index.php?page=adminpage">ADMINISTRATION</a></li>
+                        <?php
+
+                    }
                     ?>
                     <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
                                             href="index.php?action=logout">DECONNEXION</a></li>
@@ -55,6 +59,7 @@
                     <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
                                             href="index.php?page=signin">CONNEXION</a></li>
                     <?php
+
                 }
                 ?>
             </ul>
@@ -72,9 +77,10 @@
     <div class="container position-relative px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
-                <div class="site-heading">
+                <div class="site-heading ">
                     <h1><?= $H1; ?></h1>
-                    <span class="subheading">Développement PHP</span>
+                    <?php if ($H1 == 'MON BLOG PRO'){ echo '<span class="subheading">Développement PHP</span>'; } ?>
+
                 </div>
             </div>
         </div>
@@ -113,10 +119,13 @@
             <ul class=" text-center">
                 <h4 class="text-warning">MENU</h4>
                 <li class="footer-li"><a class="link" href="index.php?page=homepage"">Accueil</a></li>
-                <li class="footer-li"><a class="link" href="index.php?page=homepage#section-presentation">À propos</a>
-                </li>
                 <li class="footer-li"><a class="link" href="index.php?page=postspage">Posts</a></li>
                 <li class="footer-li"><a class="link" href="index.php?page=homepage#section-contact">Contact</a></li>
+                <?php if (isset($_SESSION['user']->idRole) && $_SESSION['user']->idRole === 1) {
+                        ?>
+                        <li class="footer-li"><a class="link" href="index.php?page=adminpage">Administration</a></li>
+                        <?php
+                    }?>
             </ul>
             <ul class="text-center">
                 <h4 class="text-warning">INFORMATIONS</h4>

@@ -3,11 +3,12 @@ require_once('database.php');
 
 class User extends Database
 {
+    // Roles constants
     const ADMIN = 1;
     const VISITOR = 2;
 
-    //User creation and registration in database
-    public function createUser($user): void
+    // Creation and registration user in database
+    public function createUser(object $user): void
     {
 
             $this->getConnection();
@@ -48,7 +49,7 @@ class User extends Database
 
 
     //Get one user and his role
-    public function getUser($email): mixed
+    public function getUser(string $email): mixed
     {
 
             $this->getConnection();

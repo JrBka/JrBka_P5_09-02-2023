@@ -5,6 +5,7 @@
 
 <?php
 
+// Display success and error message
 if (isset($_SESSION['user']) && isset($_SESSION['atConnection']) && $_SESSION['atConnection'] === true) {
     ?>
     <div class="alert alert-success bg-light ">
@@ -33,6 +34,7 @@ if (isset($_SESSION['user']) && isset($_SESSION['atConnection']) && $_SESSION['a
 }
 ?>
 
+<!--  About the developer -->
 <section id="section-presentation" class="d-flex flex-column align-items-center">
     <h2 class=" text-center">Le développeur dont vous avez besoin</h2>
     <p>BOUKRA Jérémy</p>
@@ -45,6 +47,8 @@ if (isset($_SESSION['user']) && isset($_SESSION['atConnection']) && $_SESSION['a
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <h2 class="text-center">Un projet en tête ? Contactez moi !</br> Je répondrais dans les plus brefs
                     délais !</h2>
+
+                <!--  Contact form -->
                 <div class="my-5">
                     <form id="contactForm" action="index.php?action=form"
                           method="post">
@@ -73,6 +77,9 @@ if (isset($_SESSION['user']) && isset($_SESSION['atConnection']) && $_SESSION['a
                         <button class="btn btn-warning text-uppercase " id="submitButton" type="submit"
                                 name="submit">Envoyer
                         </button>
+                    </form>
+
+                        <!-- Display success or error message about contact form -->
                         <div>
                             <?php
                             if (isset($_SESSION['Error'])) {
@@ -88,7 +95,6 @@ if (isset($_SESSION['user']) && isset($_SESSION['atConnection']) && $_SESSION['a
                             }
                             ?>
                         </div>
-                    </form>
                 </div>
             </div>
         </div>

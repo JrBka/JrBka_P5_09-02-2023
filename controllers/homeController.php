@@ -3,10 +3,12 @@ session_start();
 
 require_once('models/mailer.php');
 
+
+
 class Home
 {
 
-    // Get homePage and check ID token if $_SESSION['user'] exists
+    // Get homePage
     public function getHomePage(): void
     {
 

@@ -1,4 +1,5 @@
 <?php
+// Create csrf token
 $csrf = new Auth();
 $csrf = $csrf->csrf();
 ?>
@@ -10,6 +11,8 @@ $csrf = $csrf->csrf();
 <?php ob_start(); ?>
 
 <div id="section-signIn" class=" mb-5 d-flex flex-column align-items-center ">
+
+     <!--SignIn form-->
     <form action="index.php?action=signin" method="post" style="min-width: 300px" class="w-25 ">
         <input type="hidden" name="csrf" value="<?= $csrf; ?>">
         <div class="mb-3">
@@ -27,6 +30,8 @@ $csrf = $csrf->csrf();
         </div>
 
     </form>
+
+    <!-- Display errors -->
     <div class="w-75 m-auto">
         <?php
         if (isset($_SESSION['Error'])) {
@@ -37,6 +42,7 @@ $csrf = $csrf->csrf();
         }
         ?>
     </div>
+
 </div>
 
 <?php $content = ob_get_clean(); ?>

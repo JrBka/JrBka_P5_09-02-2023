@@ -4,6 +4,8 @@
 <?php ob_start(); ?>
 
 <div id="section-signUp" class=" mb-5 d-flex flex-column align-items-center">
+
+    <!-- Signup form -->
     <form action="index.php?action=signup" method="post" style="min-width: 300px" class="w-25 ">
         <div class="mb-3">
             <label for="name" class="form-label">Nom</label>
@@ -28,16 +30,19 @@
         <button type="submit" class="btn btn-warning">S'inscrire</button>
         <p>* Seul le pseudo sera visible par les utilisateurs</p>
     </form>
-        <div class="w-75 m-auto">
-            <?php
-            if (isset($_SESSION['Error'])) {
-                ?>
-                <p class="alert alert-danger text-center"><?= $_SESSION['Error']; ?></p>
-                <?php
-                unset($_SESSION['Error']);
-            }
+
+    <!-- Display errors -->
+    <div class="w-75 m-auto">
+        <?php
+        if (isset($_SESSION['Error'])) {
             ?>
-        </div>
+            <p class="alert alert-danger text-center"><?= $_SESSION['Error']; ?></p>
+            <?php
+            unset($_SESSION['Error']);
+        }
+        ?>
+    </div>
+
 </div>
 
 <?php $content = ob_get_clean(); ?>
