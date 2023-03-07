@@ -31,7 +31,7 @@ $csrf = $csrf->csrf();
             <form action="index.php?action=addPost" method="post" class="w-75 ">
                 <input type="hidden" name="csrf" value="<?= $csrf; ?>" required>
                 <div class="mb-3">
-                    <label for="title" class="form-label">Titre</label>
+                    <label for="title" class="form-label">Titre <small>(max 100 caractères)</small></label>
                     <input type="text" class="form-control" id="title" name="title" required>
                 </div>
                 <div class="mb-3">
@@ -90,7 +90,7 @@ $csrf = $csrf->csrf();
                 } ?>
                 par <strong><?php if ( isset($value->author) && $value->author !== null ){echo htmlspecialchars($value->author);}else{ echo htmlspecialchars($value->pseudo);} ?></strong></p>
             <h4 class="text-center px-2  mb-4"><?= htmlspecialchars($value->title); ?></h4>
-            <h5 class="text-center px-2 fst-italic mb-4"><?= htmlspecialchars($value->chapo);
+            <h5 class="text-center px-2 fst-italic mb-4" ><?= htmlspecialchars($value->chapo);
                  ?></h5>
 
             <!-- Link for post -->

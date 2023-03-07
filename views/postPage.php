@@ -22,11 +22,11 @@ $csrf = $csrf->csrf();
                             <input type="text" class="form-control" id="author" name="author" value=<?php if (isset($_SESSION['post']->author) && $_SESSION['post']->author !== null ){echo htmlspecialchars($_SESSION['post']->author);}else{ echo htmlspecialchars($_SESSION['post']->pseudo);} ?> required>
                         </div>
                         <div class="mb-3">
-                            <label for="title" class="form-label">Titre</label>
+                            <label for="title" class="form-label">Titre <small>(max 100 caractères)</small></label>
                             <input type="text" class="form-control" id="title" name="title" value="<?= htmlspecialchars($_SESSION['post']->title) ?>" required>
                         </div>
                         <div class="mb-3">
-                            <label for="chapo" class="form-label">Chapo</label>
+                            <label for="chapo" class="form-label">Chapo <small>(max 500 caractères)</small></label>
                             <textarea class="form-control" id="chapo" name="chapo"   style="height: 12rem" required><?= htmlspecialchars($_SESSION['post']->chapo) ?></textarea>
                         </div>
                         <div class="mb-3">
@@ -51,9 +51,9 @@ $csrf = $csrf->csrf();
             echo 'et modifié le <strong>' . date('d-m-Y', strtotime(htmlspecialchars($lastModification[0]))) . '</strong> à <strong>' . htmlspecialchars($lastModification[1]) . '</strong>';
         } ?>
         par <strong><?php if (isset($_SESSION['post']->author) && $_SESSION['post']->author !== null ){echo htmlspecialchars($_SESSION['post']->author);}else{ echo htmlspecialchars($_SESSION['post']->pseudo);} ?></strong></p>
-        <h4 class="text-center px-2 mb-5"><?= htmlspecialchars($_SESSION['post']->title); ?></h4>
-            <h5 class="text-center px-2 fst-italic"><?= htmlspecialchars($_SESSION['post']->chapo); ?></h5>
-        <p class="text-center px-2"><?= htmlspecialchars($_SESSION['post']->content); ?></p>
+        <h4 class="text-center mx-3 mb-5"><?= htmlspecialchars($_SESSION['post']->title); ?></h4>
+            <h5 class="text-center mx-4 fst-italic"><?= htmlspecialchars($_SESSION['post']->chapo); ?></h5>
+        <p class="mx-4 " style="text-align: justify "><?= htmlspecialchars($_SESSION['post']->content); ?></p>
 
 
             <!--Display or hides buttons-->

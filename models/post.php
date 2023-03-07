@@ -110,7 +110,6 @@ class Post extends Database
         $this->getConnection();
 
 
-
             $query = "DELETE FROM posts WHERE postId = :postId";
 
             $insertPost = $this->connection->prepare($query);
@@ -119,7 +118,6 @@ class Post extends Database
                     'postId' => $_SESSION['post']->postId
                 ]
             ) or throw new Exception();
-
 
 
     }
