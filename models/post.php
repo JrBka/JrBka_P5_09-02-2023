@@ -133,7 +133,7 @@ class Post extends Database
 
 
     // Validation post
-    public function validatePost($postId):void{
+    public function validatePost(string $postId):void{
 
         $this->getConnection();
 
@@ -153,7 +153,7 @@ class Post extends Database
 
 
     // Delete post
-    public function deletePost($postId):void{
+    public function deletePost(string $postId):void{
 
         $this->getConnection();
 

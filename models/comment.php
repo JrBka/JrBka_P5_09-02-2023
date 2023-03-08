@@ -83,7 +83,7 @@ class Comment extends Database
 
 
     // Update Comment
-    public function updateComment($commentId):void{
+    public function updateComment(string $commentId):void{
 
         $this->getConnection();
 
@@ -104,7 +104,7 @@ class Comment extends Database
 
 
     // Delete comment
-    public function deleteComment($commentId):void{
+    public function deleteComment(string $commentId):void{
 
         $this->getConnection();
 
