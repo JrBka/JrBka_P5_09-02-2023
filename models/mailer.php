@@ -28,7 +28,7 @@ class Mailer
             $this->mail->CharSet = 'utf-8';
 
             //recipient
-            $this->mail->addAddress('myblogpro@local.fr');
+            $this->mail->addAddress($_ENV['MAILER_RECIPIENT']);
 
             //sender
             $this->mail->setFrom($formContent->email);

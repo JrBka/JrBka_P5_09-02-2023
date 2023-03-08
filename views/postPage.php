@@ -66,7 +66,7 @@ $csrf = $csrf->csrf();
                         </button>
                     </form>
             <?php } ?>
-                    <form action="index.php?action=deletePost" method="post" >
+                    <form action="index.php?action=userDeletePost" method="post" >
                         <button class="btn btn-outline-danger text-uppercase m-3"  type="submit">Supprimer</button>
                     </form>
                 </div> <?php
@@ -144,10 +144,6 @@ $csrf = $csrf->csrf();
                     <strong ><?php $creationDate = explode(" ", $value->creationDate);
                         echo date('d-m-Y', strtotime(htmlspecialchars($creationDate[0]))); ?></strong> à
                     <strong><?= htmlspecialchars($creationDate[1]); ?></strong>
-                    <?php if ($value->lastModification !== null) {
-                        $lastModification = explode(" ", $value->lastModification);
-                        echo 'et modifié le <strong>' . date('d-m-Y', strtotime(htmlspecialchars($lastModification[0]))) . '</strong> à <strong>' . htmlspecialchars($lastModification[1]) . '</strong>';
-                    } ?>
                     par <strong><?= htmlspecialchars($value->pseudo); ?></strong></p>
                 <p class="text-center mt-0 px-2 "><?= htmlspecialchars($value->content);
                     ?></p>

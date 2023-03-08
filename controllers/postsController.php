@@ -61,7 +61,7 @@ class Posts
             $_SESSION['posts'] = [];
 
             $getAllPosts = new Post();
-            $getAllPosts->getAllPosts();
+            $getAllPosts->getValidatedPosts();
 
             require('views/postsPage.php');
 
@@ -71,7 +71,26 @@ class Posts
         }
     }
 
-    // Display controller of post
+
+    // Display controller of all posts
+    public function getInvalidatedPosts(): void
+    {
+        try {
+
+            $_SESSION['posts'] = [];
+
+            $getAllPosts = new Post();
+            $getAllPosts->getinValidatedPosts();
+
+
+        } catch (Exception $e) {
+            $_SESSION['Error'] = $e->getMessage();
+            header('Location:index.php?page=adminpage');
+        }
+    }
+
+
+    // Display controller of post page
     public function getPostPage(): void
     {
         try {
@@ -99,7 +118,7 @@ class Posts
     }
 
     // Update post controller
-    public function getUpdatePost():void{
+    public function userUpdatePost():void{
         try {
 
             // Display update form
@@ -131,7 +150,8 @@ class Posts
                         'chapo' => trim($_POST['chapo']),
                         'author' => trim($_POST['author']),
                         'postId' => $_SESSION['post']->postId,
-                        'lastModification' => date("Y-m-d H:i:s")
+                        'lastModification' => date("Y-m-d H:i:s"),
+                        'is_validate' => 0
                     ];
 
                     $getPost = new Post();
@@ -147,12 +167,40 @@ class Posts
         }
     }
 
-    // Delete post controller
-    public function getDeletePost():void{
+
+    // Validation controller
+    public function adminUpdatePost():void{
+
+        try{
+
+            $postId = $_POST['postId'];
+
+            $validateComment = new Post();
+            $validateComment->validatePost($postId);
+
+            $_SESSION['Success'] = 'Le post a été validé avec succès !';
+
+            $adminPage = new Admin();
+            $adminPage->getAdminPage();
+
+
+        } catch (Exception $e) {
+
+            $_SESSION['Error'] = $e->getMessage();
+            header('Location:index.php?page=adminpage');
+        }
+
+    }
+
+
+    // User delete post controller
+    public function userDeletePost():void{
         try {
 
+            $postId = $_SESSION['post']->postId;
+
             $deletePost = new Post();
-            $deletePost->deletePost();
+            $deletePost->deletePost($postId);
 
             $_SESSION['Success'] = 'Votre post a été supprimé avec succès !';
 
@@ -161,6 +209,25 @@ class Posts
         } catch (Exception $e) {
             $_SESSION['Error'] = $e->getMessage();
             header('Location:index.php?page=postpage');
+        }
+    }
+
+    // Admin delete post controller
+    public function adminDeletePost():void{
+        try {
+
+            $postId = $_POST['postId'];
+
+            $deletePost = new Post();
+            $deletePost->deletePost($postId);
+
+            $_SESSION['Success'] = 'Le post a été supprimé avec succès !';
+
+            header('Location:index.php?page=adminpage');
+
+        } catch (Exception $e) {
+            $_SESSION['Error'] = $e->getMessage();
+            header('Location:index.php?page=adminpage');
         }
     }
 

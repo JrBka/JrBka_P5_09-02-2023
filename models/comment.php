@@ -33,9 +33,12 @@ class Comment extends Database
 
             $this->getConnection();
 
-            $query = "SELECT DISTINCT comments.userId,comments.postId,comments.commentId,comments.content,comments.creationDate,comments.lastModification,users.pseudo FROM comments INNER JOIN users ON comments.userId = users.id INNER JOIN posts WHERE comments.postId =  ? AND comments.is_validate = 1 ORDER BY creationDate DESC ";
+            $query = "SELECT DISTINCT comments.userId,comments.postId,comments.commentId,comments.content,comments.creationDate,users.pseudo FROM comments INNER JOIN users ON comments.userId = users.id INNER JOIN posts WHERE comments.postId = :postId AND comments.is_validate = :is_validate ORDER BY creationDate DESC ";
             $getComments = $this->connection->prepare($query);
-            $getComments->execute([$_SESSION['post']->postId]) or throw new Exception();
+            $getComments->execute([
+                'postId'=> $_SESSION['post']->postId,
+                'is_validate'=>1
+            ]) or throw new Exception();
             $fetchAll = $getComments->fetchAll();
 
             if (is_bool($fetchAll) && !$fetchAll) {
@@ -58,9 +61,9 @@ class Comment extends Database
 
         $this->getConnection();
 
-        $query = "SELECT comments.userId,comments.postId,comments.commentId,comments.content,comments.creationDate,comments.lastModification,users.pseudo FROM comments INNER JOIN users ON comments.userId = users.id AND comments.is_validate = 0 ORDER BY creationDate DESC ";
+        $query = "SELECT comments.userId,comments.postId,comments.commentId,comments.content,comments.creationDate,users.pseudo FROM comments INNER JOIN users ON comments.userId = users.id AND comments.is_validate = :is_validate ORDER BY creationDate DESC ";
         $getAllComments = $this->connection->prepare($query);
-        $getAllComments->execute() or throw new Exception();
+        $getAllComments->execute(['is_validate' => 0]) or throw new Exception();
         $fetchAll = $getAllComments->fetchAll();
 
         if (is_bool($fetchAll) && !$fetchAll) {
@@ -93,7 +96,6 @@ class Comment extends Database
             [
                 'is_validate' => 1,
                 'commentId' => $commentId
-
 
             ]
         ) or throw new Exception();

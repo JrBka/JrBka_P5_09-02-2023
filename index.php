@@ -53,10 +53,16 @@ try {
         $addPost->addPost();
     }elseif ((isset($_GET['action']) && $_GET['action'] == "updatePost")) {
         $updatePosts = new Posts();
-        $updatePosts->getUpdatePost();
-    }elseif ((isset($_GET['action']) && $_GET['action'] == "deletePost")) {
+        $updatePosts->userUpdatePost();
+    }elseif ((isset($_GET['action']) && $_GET['action'] == "validatePost")) {
+        $updatePosts = new Posts();
+        $updatePosts->adminUpdatePost();
+    }elseif ((isset($_GET['action']) && $_GET['action'] == "userDeletePost")) {
         $deletePosts = new Posts();
-        $deletePosts->getDeletePost();
+        $deletePosts->userDeletePost();
+    }elseif ((isset($_GET['action']) && $_GET['action'] == "adminDeletePost")) {
+        $deletePosts = new Posts();
+        $deletePosts->adminDeletePost();
     }elseif ((isset($_GET['action']) && $_GET['action'] == "addComment")) {
         $addComment = new Comments();
         $addComment->addComment();

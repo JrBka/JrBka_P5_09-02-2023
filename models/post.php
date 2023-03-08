@@ -28,16 +28,15 @@ class Post extends Database
 
     }
 
-    // Get all posts in database
-    public function getAllPosts() :void
+    // Get all posts validated in database
+    public function getValidatedPosts() :void
     {
-
 
             $this->getConnection();
 
-            $query = "SELECT userId,postId,title,content,chapo,creationDate,lastModification,pseudo,author FROM posts INNER JOIN users WHERE posts.userId= users.id ORDER BY creationDate DESC ";
+            $query = "SELECT userId,postId,title,content,chapo,creationDate,lastModification,pseudo,author FROM posts INNER JOIN users WHERE posts.userId = users.id AND posts.is_validate = :is_validate ORDER BY creationDate DESC ";
             $getPosts = $this->connection->prepare($query);
-            $getPosts->execute() or throw new Exception();
+            $getPosts->execute(['is_validate'=>1]) or throw new Exception();
             $fetchAll = $getPosts->fetchAll();
 
             if (is_bool($fetchAll) && !$fetchAll) {
@@ -56,6 +55,35 @@ class Post extends Database
 
     }
 
+
+    // Get all posts invalidated in database
+    public function getInvalidatedPosts() :void
+    {
+
+        $this->getConnection();
+
+        $query = "SELECT userId,postId,title,content,chapo,creationDate,lastModification,pseudo,author FROM posts INNER JOIN users WHERE posts.userId = users.id AND posts.is_validate = :is_validate ORDER BY creationDate DESC ";
+        $getPosts = $this->connection->prepare($query);
+        $getPosts->execute(['is_validate'=>0]) or throw new Exception();
+        $fetchAll = $getPosts->fetchAll();
+
+        if (is_bool($fetchAll) && !$fetchAll) {
+
+            throw new Exception();
+
+        } else {
+
+            foreach ($fetchAll as $value) {
+
+                $_SESSION['posts'] [] = (object)$value;
+
+            }
+
+        }
+
+    }
+
+
     // Get one post in database
     public function getPost():void{
 
@@ -64,7 +92,7 @@ class Post extends Database
 
             $query = "SELECT userId,postId,title,chapo,content,creationDate,lastModification,pseudo,author FROM posts INNER JOIN users WHERE posts.userId= users.id AND postId = :postId";
             $getPost = $this->connection->prepare($query);
-            $getPost->execute(  ['postId'=>$_SESSION['post']->postId]) or throw new Exception();
+            $getPost->execute(  ['postId' => $_SESSION['post']->postId]) or throw new Exception();
             $fetch = $getPost->fetchObject();
 
             if (is_bool($fetch) && !$fetch) {
@@ -86,7 +114,7 @@ class Post extends Database
 
 
 
-            $query = "UPDATE posts SET content = :content, title = :title, chapo = :chapo, author = :author, lastModification = :lastModification WHERE postId = :postId";
+            $query = "UPDATE posts SET content = :content, title = :title, chapo = :chapo, author = :author, lastModification = :lastModification, is_validate = :is_validate WHERE postId = :postId";
 
             $updatePost = $this->connection->prepare($query);
             $updatePost->execute(
@@ -96,16 +124,36 @@ class Post extends Database
                     'content' => $formUpdateContent->content,
                     'chapo' => $formUpdateContent->chapo,
                     'author' => $formUpdateContent->author,
-                    'lastModification' => $formUpdateContent->lastModification
-
+                    'lastModification' => $formUpdateContent->lastModification,
+                    'is_validate' => $formUpdateContent->is_validate
                 ]
             ) or throw new Exception();
 
+    }
+
+
+    // Validation post
+    public function validatePost($postId):void{
+
+        $this->getConnection();
+
+        $query = "UPDATE posts SET is_validate = :is_validate WHERE postId = :postId";
+
+        $updatePost = $this->connection->prepare($query);
+        $updatePost->execute(
+            [
+                'is_validate' => 1,
+                'postId' => $postId
+
+
+            ]
+        ) or throw new Exception();
 
     }
 
+
     // Delete post
-    public function deletePost():void{
+    public function deletePost($postId):void{
 
         $this->getConnection();
 
@@ -115,7 +163,7 @@ class Post extends Database
             $insertPost = $this->connection->prepare($query);
             $insertPost->execute(
                 [
-                    'postId' => $_SESSION['post']->postId
+                    'postId' => $postId
                 ]
             ) or throw new Exception();
 

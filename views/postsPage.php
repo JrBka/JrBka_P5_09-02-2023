@@ -90,8 +90,7 @@ $csrf = $csrf->csrf();
                 } ?>
                 par <strong><?php if ( isset($value->author) && $value->author !== null ){echo htmlspecialchars($value->author);}else{ echo htmlspecialchars($value->pseudo);} ?></strong></p>
             <h4 class="text-center px-2  mb-4"><?= htmlspecialchars($value->title); ?></h4>
-            <h5 class="text-center px-2 fst-italic mb-4" ><?= htmlspecialchars($value->chapo);
-                 ?></h5>
+            <h5 class="text-center px-2 fst-italic mb-4" ><?= htmlspecialchars($value->chapo);?></h5>
 
             <!-- Link for post -->
             <form action="index.php?page=postpage" method="post" class="mb-3">
