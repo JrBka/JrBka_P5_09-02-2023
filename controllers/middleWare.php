@@ -62,23 +62,23 @@ class MiddleWare
 
 
     // Check role
-    public function checkRole(): void
+    public function checkRole():void
     {
         try {
 
                 if (empty($_SESSION['user']) || $_SESSION['user']->idRole !== 1){
 
-                    die('<h1 style="text-align: center; margin-top: 50vh;font-size: xxx-large">Vous n\'avez pas l\'autorisation d\'accéder à cette page !</h1>');
+                  throw new Exception('<h1 style="text-align: center; margin-top: 50vh;font-size: xxx-large">Vous n\'avez pas l\'autorisation d\'accéder à cette page !</h1>');
                 }
 
         } catch (Exception $e) {
-            echo $e->getMessage();
+            echo die( $e->getMessage());
         }
     }
 
 
     // Check csrf token
-    public function checkCsrfToken(): void
+    public function checkCsrfToken():string
     {
         try {
 
@@ -86,7 +86,7 @@ class MiddleWare
 
             throw new Exception('Le token csrf n\'a pas pu être authentifié ');
 
-        } elseif ($_SESSION['csrf_time'] < time() - 300) {
+        } elseif ($_SESSION['csrf_time'] < time() - 5) {
 
             throw new Exception('Le token csrf à expiré !');
 
@@ -95,7 +95,7 @@ class MiddleWare
         } catch (Exception $e) {
             $url = $_SERVER['HTTP_REFERER'];
             $_SESSION['Error'] = $e->getMessage();
-            die(header('Location:'.$url.'#section-error-success'));
+             return die(header('Location:'.$url.'#section-error-success'));
         }
     }
 

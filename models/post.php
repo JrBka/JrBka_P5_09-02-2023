@@ -23,20 +23,20 @@ class Post extends Database
     }
 
 
-    public function getValidatedPosts()
+    public function getValidatedPosts():void
     {
          $this->getAllPosts(['is_validate' => 1]);
     }
 
 
-    public function getInvalidatedPosts()
+    public function getInvalidatedPosts():void
     {
          $this->getAllPosts(['is_validate' => 0]);
     }
 
 
 
-    public function getAllPosts($conditions)
+    public function getAllPosts(array $conditions):void
     {
 
         $query = "SELECT userId,postId,title,content,chapo,creationDate,lastModification,pseudo,author FROM posts INNER JOIN users WHERE posts.userId = users.id AND posts.is_validate = :is_validate ORDER BY creationDate DESC ";
