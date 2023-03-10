@@ -15,66 +15,131 @@ try {
 
     // Check token and activity
     $check = new MiddleWare();
-    $check->checkToken();
+    $check->checkSessionToken();
     $check->checkInactivity();
 
-    if (empty($_GET) || (isset($_GET['page']) && $_GET['page'] == "homepage")) {
+
+    if (!empty($_POST) && !empty($_GET['action'])){
+
+        $check->checkCsrfToken();
+
+        switch ($_GET['action']){
+
+            case 'contactForm':
+                $form = new Home();
+                $form->getMessage();
+                break;
+
+            case 'signin':
+                $signIn = new Login();
+                $signIn->signIn();
+                break;
+
+            case 'signup':
+                $signUp = new Login();
+                $signUp->signUp();
+                break;
+
+            case 'addPost':
+                $addPost = new Posts();
+                $addPost->addPost();
+                break;
+
+            case 'getUpdatePostForm':
+                $getUpdatePostForm = new Posts();
+                $getUpdatePostForm->getUpdatePostForm();
+                break;
+
+            case 'updatePost':
+                $updatePosts = new Posts();
+                $updatePosts->userUpdatePost();
+                break;
+
+            case 'validatePost':
+                $validatePost = new Posts();
+                $validatePost->adminUpdatePost();
+                break;
+
+            case 'deletePost':
+                $deletePosts = new Posts();
+                $deletePosts->userDeletePost();
+                break;
+
+            case 'adminDeletePost':
+                $deletePosts = new Posts();
+                $deletePosts->adminDeletePost();
+                break;
+
+            case 'addComment':
+                $addComment = new Comments();
+                $addComment->addComment();
+                break;
+
+            case 'validateComment':
+                $validateComment = new Comments();
+                $validateComment->validateComment();
+                break;
+
+            case 'deleteComment':
+                $deleteComment = new Comments();
+                $deleteComment->deleteComment();
+                break;
+
+            default:
+                throw new Exception('<h1 style="text-align: center; margin-top: 50vh;font-size: xxx-large">Error 404 : Page introuvable</h1>');
+        }
+
+    }elseif (!empty($_GET) && !empty($_GET['page'])){
+
+        switch ($_GET['page']) {
+
+            case 'homepage':
+                $home = new Home();
+                $home->getHomePage();
+                break;
+
+            case 'signin':
+                $getSignIn = new Login();
+                $getSignIn->getSignInPage();
+                break;
+
+            case 'signup':
+                $getSignUp = new Login();
+                $getSignUp->getSignUpPage();
+                break;
+
+            case 'logout':
+                $logout = new Login();
+                $logout->logout();
+                break;
+
+            case 'postspage':
+                $posts = new Posts();
+                $posts->getPostsPage();
+                break;
+
+            case 'postpage':
+                $post = new Posts();
+                $post->getPostPage();
+                break;
+
+            case 'adminpage':
+                $check->checkRole();
+                $admin = new Admin();
+                $admin->getAdminPage();
+                break;
+
+            default:
+                throw new Exception('<h1 style="text-align: center; margin-top: 50vh;font-size: xxx-large">Error 404 : Page introuvable</h1>');
+        }
+
+    }else{
+
         $home = new Home();
         $home->getHomePage();
-    } elseif (isset($_GET['page']) && $_GET['page'] == "signin") {
-        $getSignIn = new Login();
-        $getSignIn->getSignInPage();
-    } elseif (isset($_GET['page']) && $_GET['page'] == "signup") {
-        $getSignUp = new Login();
-        $getSignUp->getSignUpPage();
-    } elseif ((isset($_GET['page']) && $_GET['page'] == "postspage")) {
-        $posts = new Posts();
-        $posts->getPostsPage();
-    }elseif ((isset($_GET['page']) && $_GET['page'] == "postpage")) {
-        $post = new Posts();
-        $post->getPostPage();
-    }elseif ((isset($_GET['page']) && $_GET['page'] == "adminpage")) {
-        $admin = new Admin();
-        $admin->getAdminPage();
-    } elseif ((isset($_GET['action']) && $_GET['action'] == "form")) {
-        $form = new Home();
-        $form->getMessage();
-    } elseif ((isset($_GET['action']) && $_GET['action'] == "signup")) {
-        $signUp = new login();
-        $signUp->signUp();
-    } elseif ((isset($_GET['action']) && $_GET['action'] == "signin")) {
-        $signIn = new login();
-        $signIn->signIn();
-    } elseif ((isset($_GET['action']) && $_GET['action'] == "logout")) {
-        $logout = new login();
-        $logout->logout();
-    } elseif ((isset($_GET['action']) && $_GET['action'] == "addPost")) {
-        $addPost = new Posts();
-        $addPost->addPost();
-    }elseif ((isset($_GET['action']) && $_GET['action'] == "updatePost")) {
-        $updatePosts = new Posts();
-        $updatePosts->userUpdatePost();
-    }elseif ((isset($_GET['action']) && $_GET['action'] == "validatePost")) {
-        $updatePosts = new Posts();
-        $updatePosts->adminUpdatePost();
-    }elseif ((isset($_GET['action']) && $_GET['action'] == "userDeletePost")) {
-        $deletePosts = new Posts();
-        $deletePosts->userDeletePost();
-    }elseif ((isset($_GET['action']) && $_GET['action'] == "adminDeletePost")) {
-        $deletePosts = new Posts();
-        $deletePosts->adminDeletePost();
-    }elseif ((isset($_GET['action']) && $_GET['action'] == "addComment")) {
-        $addComment = new Comments();
-        $addComment->addComment();
-    }elseif ((isset($_GET['action']) && $_GET['action'] == "validateComment")) {
-        $validateComment = new Comments();
-        $validateComment->validateComment();
-    }elseif ((isset($_GET['action']) && $_GET['action'] == "deleteComment")) {
-        $deleteComment = new Comments();
-        $deleteComment->deleteComment();
-    } else {
-        throw new Exception('<h1 style="text-align: center; margin-top: 50vh;font-size: xxx-large">Error 404 : Page introuvable</h1>');
+
     }
+
 
 } catch (Exception $e) {
     echo $e->getMessage();

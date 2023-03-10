@@ -61,12 +61,14 @@ $csrf = $csrf->csrf();
                 ?> <div class="d-flex flex-column align-items-center flex-md-row">
             <?php if (!isset($_SESSION['formUpdate']) || $_SESSION['formUpdate'] === false){
             ?>
-                    <form action="index.php?action=updatePost" method="post" >
+                    <form action="index.php?action=getUpdatePostForm" method="post" >
+                        <input type="hidden" name="csrf" value="<?= $csrf; ?>" required>
                         <button class="btn btn-outline-primary text-uppercase m-3"  type="submit">Modifier
                         </button>
                     </form>
             <?php } ?>
                     <form action="index.php?action=userDeletePost" method="post" >
+                        <input type="hidden" name="csrf" value="<?= $csrf; ?>" required>
                         <button class="btn btn-outline-danger text-uppercase m-3"  type="submit">Supprimer</button>
                     </form>
                 </div> <?php
@@ -105,7 +107,7 @@ $csrf = $csrf->csrf();
     </section>
 
 
-    <!-- Display errors -->
+    <!-- Display errors and success message-->
     <section id="section-error-success" class="w-75 m-auto">
 
         <div class="text-center">

@@ -8,9 +8,6 @@ class Comment extends Database
     public function createComment(string $commentContent): void
     {
 
-        $this->getConnection();
-
-
             $query = "INSERT INTO comments (postId,userId,content) VALUES (:postId,:userId,:content)";
 
             $insertPost = $this->connection->prepare($query);
@@ -28,10 +25,8 @@ class Comment extends Database
 
 
     // Get all comments validated for each post in database
-    public function getComments() :void
+    public function getValidatedComments() :void
     {
-
-            $this->getConnection();
 
             $query = "SELECT DISTINCT comments.userId,comments.postId,comments.commentId,comments.content,comments.creationDate,users.pseudo FROM comments INNER JOIN users ON comments.userId = users.id INNER JOIN posts WHERE comments.postId = :postId AND comments.is_validate = :is_validate ORDER BY creationDate DESC ";
             $getComments = $this->connection->prepare($query);
@@ -56,10 +51,8 @@ class Comment extends Database
 
 
     // Get all comments invalidated in database
-    public function getAllComments() :void
+    public function getInvalidatedComments() :void
     {
-
-        $this->getConnection();
 
         $query = "SELECT comments.userId,comments.postId,comments.commentId,comments.content,comments.creationDate,users.pseudo FROM comments INNER JOIN users ON comments.userId = users.id AND comments.is_validate = :is_validate ORDER BY creationDate DESC ";
         $getAllComments = $this->connection->prepare($query);
@@ -83,11 +76,7 @@ class Comment extends Database
 
 
     // Update Comment
-    public function updateComment(string $commentId):void{
-
-        $this->getConnection();
-
-
+    public function updateComment(int $commentId):void{
 
         $query = "UPDATE comments SET is_validate = :is_validate WHERE commentId = :commentId";
 
@@ -104,10 +93,7 @@ class Comment extends Database
 
 
     // Delete comment
-    public function deleteComment(string $commentId):void{
-
-        $this->getConnection();
-
+    public function deleteComment(int $commentId):void{
 
         $query = "DELETE FROM comments WHERE commentId = :commentId";
 
@@ -117,7 +103,6 @@ class Comment extends Database
                 'commentId'=>$commentId
             ]
         ) or throw new Exception();
-
 
     }
 

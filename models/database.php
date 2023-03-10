@@ -6,7 +6,7 @@ abstract class Database
     protected mixed $connection;
 
     // Database connection with PDO
-    public function getConnection(): void
+    public function __CONSTRUCT()
     {
         $this->connection = null;
 

@@ -3,8 +3,6 @@ session_start();
 
 require_once('models/mailer.php');
 
-
-
 class Home
 {
 
@@ -25,7 +23,8 @@ class Home
 
                 $_SESSION['Error'] = 'Echec de l\'envoi du message! Un ou plusieurs champs incorrect.';
 
-                header('Location:index.php#section-contact');
+                header('Location:index.php?page=homepage#section-contact');
+
             } else {
 
                 $form = new Mailer();
@@ -42,7 +41,7 @@ class Home
 
             $_SESSION['Error'] = $error->getMessage();
 
-            header('Location:index.php#section-contact');
+            header('Location:index.php?page=homepage#section-contact');
         }
 
     }

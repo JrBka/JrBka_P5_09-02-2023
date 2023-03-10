@@ -11,9 +11,6 @@ class User extends Database
     public function createUser(object $user): void
     {
 
-            $this->getConnection();
-
-
                 // Insert user in users table
                 $sql1 = "INSERT INTO users (nom,prenom,pseudo,email,password) VALUES (:nom,:prenom,:pseudo,:email,:password)";
 
@@ -25,7 +22,6 @@ class User extends Database
                         'pseudo' => $user->pseudo,
                         'email' => $user->email,
                         'password' => $user->pwd
-
                     ]
                 ) or throw new Exception();
 
@@ -52,8 +48,6 @@ class User extends Database
     public function getUser(string $email): mixed
     {
 
-            $this->getConnection();
-
             $query = "SELECT id,nom,prenom,pseudo,email,password,idRole FROM users INNER JOIN users_roles WHERE users.id = users_roles.idUser AND email = ?";
             $getId = $this->connection->prepare($query);
             $getId->execute([$email]) or throw new Exception();
@@ -66,8 +60,6 @@ class User extends Database
     // Get all users in database and their roles
     public function getAllUsers(): mixed
     {
-
-            $this->getConnection();
 
             $query = "SELECT id,nom,prenom,pseudo,email,password,idRole FROM users INNER JOIN users_roles WHERE users.id = users_roles.idUser";
             $getId = $this->connection->prepare($query);

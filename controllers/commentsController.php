@@ -14,15 +14,7 @@ class Comments
 
             if (empty(trim($_POST['commentContent']))) {
                 throw new Exception();
-            } elseif (empty($_SESSION['csrf']) || empty($_POST['csrf']) || $_SESSION['csrf'] != $_POST['csrf']) {
-
-                throw new Exception('Le token csrf n\'a pas pu être authentifié ');
-
-            } elseif ($_SESSION['csrf_time'] < time() - 300) {
-
-                throw new Exception('Le token csrf à expiré !');
-
-            } else {
+            }else {
                 $commentContent = $_POST['commentContent'];
 
                 $comment = new Comment();
@@ -41,15 +33,14 @@ class Comments
 
 
     // Display controller of all comments for each post
-    public function getComments(): void
+    public function getValidatedComments(): void
     {
         try {
 
             $_SESSION['comments'] = [];
 
-
             $getAllPosts = new Comment();
-            $getAllPosts->getComments();
+            $getAllPosts->getValidatedComments();
 
 
         } catch (Exception $e) {
@@ -60,21 +51,20 @@ class Comments
 
 
     // Display controller of all comments invalidated
-    public function getAllComments(): void
+    public function getInvalidatedComments(): void
     {
         try {
 
             $_SESSION['comments'] = [];
-
-
+            
             $getAllPosts = new Comment();
-            $getAllPosts->getAllComments();
+            $getAllPosts->getInvalidatedComments();
 
 
         } catch (Exception $e) {
 
             $_SESSION['Error'] = $e->getMessage();
-            header('Location:index.php?page=adminpage');
+            header('Location:index.php?page=adminpage#section-error-success');
         }
     }
 
@@ -98,7 +88,7 @@ class Comments
         } catch (Exception $e) {
 
             $_SESSION['Error'] = $e->getMessage();
-            header('Location:index.php?page=adminpage');
+            header('Location:index.php?page=adminpage#section-error-success');
         }
 
     }
@@ -114,11 +104,12 @@ class Comments
 
             $_SESSION['Success'] = 'Le commentaire a été supprimé avec succès !';
 
-            header('Location:index.php?page=adminpage');
+            $adminPage = new Admin();
+            $adminPage->getAdminPage();
 
         } catch (Exception $e) {
             $_SESSION['Error'] = $e->getMessage();
-            header('Location:index.php?page=adminpage');
+            header('Location:index.php?page=adminpage#section-error-success');
         }
     }
 

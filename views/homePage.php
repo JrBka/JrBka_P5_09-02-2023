@@ -1,3 +1,9 @@
+<?php
+// Create csrf token
+$csrf = new Auth();
+$csrf = $csrf->csrf();
+?>
+
 <?php $title = 'Accueil'; ?>
 <?php $H1 = 'MON BLOG PRO'; ?>
 
@@ -41,6 +47,7 @@ if (isset($_SESSION['user']) && isset($_SESSION['atConnection']) && $_SESSION['a
     <div id="img-container"><img src="views/img/photoProfil.jpg" alt="photo-de-profil"></div>
     <span class="mt-3 text-center">Cliquez<a class="link text-primary" href="views/CV.pdf" target="_blank"> ici </a>pour voir mon CV</span>
 </section>
+
 <section id="section-contact" class="mt-5 mb-3">
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
@@ -50,9 +57,10 @@ if (isset($_SESSION['user']) && isset($_SESSION['atConnection']) && $_SESSION['a
 
                 <!--  Contact form -->
                 <div class="my-5">
-                    <form id="contactForm" action="index.php?action=form"
+                    <form id="contactForm" action="index.php?action=contactForm"
                           method="post">
                         <div class="form-floating">
+                            <input type="hidden" name="csrf" value="<?= $csrf; ?>" required>
                             <input class="form-control" id="name" type="text" name="name"
                                    value="<?php if (!empty($_SESSION['user'])) {
                                        echo htmlspecialchars($_SESSION['user']->pseudo);
@@ -78,27 +86,33 @@ if (isset($_SESSION['user']) && isset($_SESSION['atConnection']) && $_SESSION['a
                                 name="submit">Envoyer
                         </button>
                     </form>
-
-                        <!-- Display success or error message about contact form -->
-                        <div>
-                            <?php
-                            if (isset($_SESSION['Error'])) {
-                                ?>
-                                <p class='alert alert-danger'><?= $_SESSION['Error']; ?></p>
-                                <?php
-                                unset($_SESSION['Error']);
-                            } elseif (isset($_SESSION['Success'])) {
-                                ?>
-                                <p class='alert alert-success'><?= $_SESSION['Success']; ?></p>
-                                <?php
-                                unset($_SESSION['Success']);
-                            }
-                            ?>
-                        </div>
                 </div>
             </div>
         </div>
     </div>
+</section>
+
+<!-- Display errors and success message about contact form-->
+<section id="section-error-success" class="w-50 m-auto">
+
+    <div class="text-center">
+        <?php
+
+        if (isset($_SESSION['Error'])) {
+            ?>
+            <p class='alert alert-danger'><?= $_SESSION['Error']; ?></p>
+            <?php
+            unset($_SESSION['Error']);
+
+        }else if (isset($_SESSION['Success'])) {
+            ?>
+            <p class='alert alert-success'><?= $_SESSION['Success']; ?></p>
+            <?php
+            unset($_SESSION['Success']);
+        }
+        ?>
+    </div>
+
 </section>
 
 <?php $content = ob_get_clean(); ?>

@@ -1,12 +1,19 @@
+<?php
+// Create csrf token
+$csrf = new Auth();
+$csrf = $csrf->csrf();
+?>
+
 <?php $title = 'INSCRIPTION'; ?>
 <?php $H1 = 'INSCRIPTION'; ?>
 
 <?php ob_start(); ?>
 
-<div id="section-signUp" class=" mb-5 d-flex flex-column align-items-center">
+<section id="section-signUp" class=" mb-5 d-flex flex-column align-items-center">
 
     <!-- Signup form -->
     <form action="index.php?action=signup" method="post" style="min-width: 300px" class="w-25 ">
+        <input type="hidden" name="csrf" value="<?= $csrf; ?>" required>
         <div class="mb-3">
             <label for="name" class="form-label">Nom</label>
             <input type="text" id="name" class="form-control" name="name" required>
@@ -31,19 +38,30 @@
         <p>* Seul le pseudo sera visible par les utilisateurs</p>
     </form>
 
-    <!-- Display errors -->
-    <div class="w-75 m-auto">
+</section>
+
+<!-- Display errors and success message-->
+<section id="section-error-success" class="w-75 m-auto">
+
+    <div class="text-center">
         <?php
+
         if (isset($_SESSION['Error'])) {
             ?>
-            <p class="alert alert-danger text-center"><?= $_SESSION['Error']; ?></p>
+            <p class='alert alert-danger'><?= $_SESSION['Error']; ?></p>
             <?php
             unset($_SESSION['Error']);
+
+        }else if (isset($_SESSION['Success'])) {
+            ?>
+            <p class='alert alert-success'><?= $_SESSION['Success']; ?></p>
+            <?php
+            unset($_SESSION['Success']);
         }
         ?>
     </div>
 
-</div>
+</section>
 
 <?php $content = ob_get_clean(); ?>
 

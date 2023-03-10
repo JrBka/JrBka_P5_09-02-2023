@@ -51,7 +51,7 @@
                     }
                     ?>
                     <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
-                                            href="index.php?action=logout">DECONNEXION</a></li>
+                                            href="index.php?page=logout">DECONNEXION</a></li>
                     <?php
 
                 } else {

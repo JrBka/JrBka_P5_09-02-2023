@@ -1,10 +1,11 @@
 <?php
 
+// Security
 
 class MiddleWare
 {
     // Check ID token
-    public function checkToken(): void
+    public function checkSessionToken(): void
     {
         try {
             if (isset($_SESSION['user'])) {
@@ -17,7 +18,7 @@ class MiddleWare
                     session_start();
                     $_SESSION['tokenError'] = true;
 
-                    header('Location:index.php');
+                    header('Location:index.php?page=homepage');
 
                 }
             }
@@ -47,7 +48,7 @@ class MiddleWare
                     session_start();
                     $_SESSION['tokenError'] = true;
 
-                    header('Location:index.php');
+                    header('Location:index.php?page=homepage');
 
                 }else{
                     $_SESSION['time'] = time();
@@ -56,6 +57,45 @@ class MiddleWare
 
         }catch (Exception $e) {
             echo $e->getMessage();
+        }
+    }
+
+
+    // Check role
+    public function checkRole(): void
+    {
+        try {
+
+                if (empty($_SESSION['user']) || $_SESSION['user']->idRole !== 1){
+
+                    die('<h1 style="text-align: center; margin-top: 50vh;font-size: xxx-large">Vous n\'avez pas l\'autorisation d\'accéder à cette page !</h1>');
+                }
+
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
+
+    // Check csrf token
+    public function checkCsrfToken(): void
+    {
+        try {
+
+        if (empty($_SESSION['csrf']) || empty($_POST['csrf']) || $_SESSION['csrf'] != $_POST['csrf']) {
+
+            throw new Exception('Le token csrf n\'a pas pu être authentifié ');
+
+        } elseif ($_SESSION['csrf_time'] < time() - 300) {
+
+            throw new Exception('Le token csrf à expiré !');
+
+        }
+
+        } catch (Exception $e) {
+            $url = $_SERVER['HTTP_REFERER'];
+            $_SESSION['Error'] = $e->getMessage();
+            die(header('Location:'.$url.'#section-error-success'));
         }
     }
 

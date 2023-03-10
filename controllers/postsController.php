@@ -23,15 +23,7 @@ class Posts
 
                 throw new Exception('Le chapo doit être renseigné et ne doit pas excéder 500 caractères');
 
-            }elseif (empty($_SESSION['csrf']) || empty($_POST['csrf']) || $_SESSION['csrf'] != $_POST['csrf']) {
-
-                throw new Exception('Le token csrf n\'a pas pu être authentifié ');
-
-            }elseif ($_SESSION['csrf_time'] < time() - 300){
-
-                throw new Exception('Le token csrf à expiré !');
-
-            } else {
+            }else {
 
                 $_SESSION['post'] = (object)[
                     'title' => trim($_POST['title']),
@@ -42,7 +34,7 @@ class Posts
 
                 $post = new Post();
                 $post->createPost();
-                $_SESSION['Success'] = 'Post ajouté avec succès !';
+                $_SESSION['Success'] = 'Post en attente de validation !';
                 header('Location:index.php?page=postspage#section-addPost');
             }
 
@@ -53,7 +45,7 @@ class Posts
     }
 
 
-    // Display controller of all posts
+    // Display controller of all validated posts
     public function getPostsPage(): void
     {
         try {
@@ -67,12 +59,12 @@ class Posts
 
         } catch (Exception $e) {
             $_SESSION['Error'] = $e->getMessage();
-            header('Location:index.php?page=postspage');
+            header('Location:index.php?page=postspage#section-error-success');
         }
     }
 
 
-    // Display controller of all posts
+    // Display controller of all invalidated posts
     public function getInvalidatedPosts(): void
     {
         try {
@@ -80,12 +72,12 @@ class Posts
             $_SESSION['posts'] = [];
 
             $getAllPosts = new Post();
-            $getAllPosts->getinValidatedPosts();
+            $getAllPosts->getInvalidatedPosts();
 
 
         } catch (Exception $e) {
             $_SESSION['Error'] = $e->getMessage();
-            header('Location:index.php?page=adminpage');
+            header('Location:index.php?page=adminpage#section-error-success');
         }
     }
 
@@ -105,7 +97,7 @@ class Posts
 
 
             $getComments = new Comments();
-            $getComments->getComments();
+            $getComments->getValidatedComments();
 
             $_SESSION['formUpdate'] = false;
 
@@ -113,7 +105,23 @@ class Posts
 
         } catch (Exception $e) {
             $_SESSION['Error'] = $e->getMessage();
-            header('Location:index.php?page=postpage');
+            header('Location:index.php?page=postpage#section-error-success');
+        }
+    }
+
+
+    // Display update form
+    public function getUpdatePostForm(): void
+    {
+        try {
+
+                $_SESSION['formUpdate'] = true;
+                require('views/postPage.php');
+
+
+        } catch (Exception $e) {
+            $_SESSION['Error'] = $e->getMessage();
+            header('Location:index.php?page=postpage#section-error-success');
         }
     }
 
@@ -121,28 +129,12 @@ class Posts
     public function userUpdatePost():void{
         try {
 
-            // Display update form
-            if (empty($_POST)){
-
-                $_SESSION['formUpdate'] = true;
-
-                require('views/postPage.php');
-
-            }
             // Form control
-            elseif (empty(trim($_POST['content'])) || empty(trim($_POST['title'])) || empty(trim($_POST['chapo'])) || empty(trim($_POST['author']))) {
+            if (empty(trim($_POST['content'])) || empty(trim($_POST['title'])) || empty(trim($_POST['chapo'])) || empty(trim($_POST['author']))) {
 
                 throw new Exception('Tous les champs sont obligatoires !');
 
-            } elseif (empty($_SESSION['csrf']) || empty($_POST['csrf']) || $_SESSION['csrf'] != $_POST['csrf']) {
-
-                throw new Exception('Le token csrf n\'a pas pu être authentifié ');
-
-            }elseif ($_SESSION['csrf_time'] < time() - 300){
-
-                throw new Exception('Le token csrf à expiré !');
-
-            } else {
+            }else {
 
                     $formUpdateContent = (object)[
                         'title' => trim($_POST['title']),
@@ -157,13 +149,13 @@ class Posts
                     $getPost = new Post();
                     $getPost->updatePost($formUpdateContent);
 
-                    $_SESSION['Success'] = 'Post modifié avec succès !';
+                    $_SESSION['Success'] = 'Modification en attente de validation !';
                     header('Location:index.php?page=postspage#section-addPost');
             }
 
         } catch (Exception $e) {
             $_SESSION['Error'] = $e->getMessage();
-            header('Location:index.php?page=postpage');
+            header('Location:index.php?page=postpage#section-error-success');
         }
     }
 
@@ -187,7 +179,7 @@ class Posts
         } catch (Exception $e) {
 
             $_SESSION['Error'] = $e->getMessage();
-            header('Location:index.php?page=adminpage');
+            header('Location:index.php?page=adminpage#section-error-success');
         }
 
     }
@@ -208,7 +200,7 @@ class Posts
 
         } catch (Exception $e) {
             $_SESSION['Error'] = $e->getMessage();
-            header('Location:index.php?page=postpage');
+            header('Location:index.php?page=postpage#section-error-success');
         }
     }
 
@@ -223,11 +215,11 @@ class Posts
 
             $_SESSION['Success'] = 'Le post a été supprimé avec succès !';
 
-            header('Location:index.php?page=adminpage');
+            header('Location:index.php?page=adminpage#section-error-success');
 
         } catch (Exception $e) {
             $_SESSION['Error'] = $e->getMessage();
-            header('Location:index.php?page=adminpage');
+            header('Location:index.php?page=adminpage#section-error-success');
         }
     }
 

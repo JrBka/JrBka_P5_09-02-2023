@@ -32,7 +32,7 @@ class Login
         session_start();
 
         $_SESSION['destroy'] = true;
-        header('Location:index.php');
+        header('Location:index.php?page=homepage');
     }
 
     // Account connection
@@ -41,19 +41,11 @@ class Login
 
         try {
 
-            if (empty($_SESSION['csrf']) || empty($_POST['csrf']) || $_SESSION['csrf'] != $_POST['csrf']) {
-
-                throw new Exception('Le token csrf n\'a pas pu être authentifié ');
-
-            }elseif (empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) || empty($_POST['pwd'])) {
+            if (empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) || empty($_POST['pwd'])) {
 
                 throw new Exception('Tous les champs sont requis et doivent être valide!');
 
-            }elseif ($_SESSION['csrf_time'] < time() - 300){
-
-                throw new Exception('Le token csrf à expiré !');
-
-            } else {
+            }else {
 
                 $loginValues = new Login();
                 $loginValues->email = $_POST['email'];
@@ -89,7 +81,7 @@ class Login
                         $createToken->createToken();
                                 
                         $_SESSION['atConnection'] = true;
-                        header('Location:index.php');
+                        header('Location:index.php?page=homepage');
                     }
                 }
             }
@@ -170,7 +162,7 @@ class Login
                     $_SESSION['atConnection'] = true;
 
 
-                    header('Location:index.php');
+                    header('Location:index.php?page=homepage');
                 }
             }
 

@@ -49,16 +49,16 @@ $csrf = $csrf->csrf();
     } ?>
 </section>
 
-<!-- Display errors -->
-<section id="section-error" class="w-75 m-auto">
+<!-- Display errors and success message-->
+<section id="section-error-success" class="w-75 m-auto">
 
     <div class="text-center">
         <?php
 
-            if (isset($_SESSION['Error'])) {
-        ?>
-        <p class='alert alert-danger'><?= $_SESSION['Error']; ?></p>
-        <?php
+        if (isset($_SESSION['Error'])) {
+            ?>
+            <p class='alert alert-danger'><?= $_SESSION['Error']; ?></p>
+            <?php
             unset($_SESSION['Error']);
 
         }else if (isset($_SESSION['Success'])) {

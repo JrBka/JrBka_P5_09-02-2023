@@ -12,7 +12,7 @@ class Admin
         $getPosts->getInvalidatedPosts();
 
         $getComments = new Comments();
-        $getComments->getAllComments();
+        $getComments->getInvalidatedComments();
 
         require('views/adminPage.php');
 

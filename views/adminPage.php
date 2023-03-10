@@ -10,7 +10,7 @@ $csrf = $csrf->csrf();
 <?php ob_start(); ?>
 
 <!-- Display error and success messages -->
-<section id="section-error" class="w-75 m-auto">
+<section id="section-error-success" class="w-75 m-auto">
 
     <div class="text-center">
         <?php
@@ -57,12 +57,14 @@ $csrf = $csrf->csrf();
                 <p class="text-center mt-0 px-2 "><?= htmlspecialchars($value->content); ?></p>
                 <div class="d-flex flex-column align-items-center flex-md-row">
                     <form action="index.php?action=validatePost" method="post" >
+                        <input type="hidden" name="csrf" value="<?= $csrf; ?>" required>
                         <input type="hidden" value="<?= $value->postId ?>"  name="postId" >
                         <button class="btn btn-sm btn-outline-success text-uppercase m-3"  type="submit">Valider
                         </button>
                     </form>
 
                     <form action="index.php?action=adminDeletePost" method="post" >
+                        <input type="hidden" name="csrf" value="<?= $csrf; ?>" required>
                         <input type="hidden" value="<?= $value->postId ?>"  name="postId" >
                         <button class="btn btn-sm btn-outline-danger text-uppercase m-3"  type="submit">Supprimer</button>
                     </form>
@@ -98,12 +100,13 @@ $csrf = $csrf->csrf();
                     ?></p>
                 <div class="d-flex flex-column align-items-center flex-md-row">
                     <form action="index.php?action=validateComment" method="post" >
+                        <input type="hidden" name="csrf" value="<?= $csrf; ?>" required>
                         <input type="hidden" value="<?= $value->commentId ?>"  name="commentId" >
-                        <button class="btn btn-sm btn-outline-success text-uppercase m-3"  type="submit">Valider
-                        </button>
+                        <button class="btn btn-sm btn-outline-success text-uppercase m-3"  type="submit">Valider</button>
                     </form>
 
                     <form action="index.php?action=deleteComment" method="post" >
+                        <input type="hidden" name="csrf" value="<?= $csrf; ?>" required>
                         <input type="hidden" value="<?= $value->commentId ?>"  name="commentId" >
                         <button class="btn btn-sm btn-outline-danger text-uppercase m-3"  type="submit">Supprimer</button>
                     </form>
