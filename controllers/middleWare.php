@@ -72,30 +72,34 @@ class MiddleWare
                 }
 
         } catch (Exception $e) {
-            echo die( $e->getMessage());
+            echo( $e->getMessage());
+            exit();
         }
     }
 
 
     // Check csrf token
-    public function checkCsrfToken():string
+    public function checkCsrfToken():void
     {
         try {
 
         if (empty($_SESSION['csrf']) || empty($_POST['csrf']) || $_SESSION['csrf'] != $_POST['csrf']) {
 
-            throw new Exception('Le token csrf n\'a pas pu être authentifié ');
+            throw new Exception('Le token csrf n\'a pas pu être authentifié !');
 
-        } elseif ($_SESSION['csrf_time'] < time() - 5) {
+        } elseif ($_SESSION['csrf_time'] < time() - 300) {
 
             throw new Exception('Le token csrf à expiré !');
 
         }
 
         } catch (Exception $e) {
+
             $url = $_SERVER['HTTP_REFERER'];
             $_SESSION['Error'] = $e->getMessage();
-             return die(header('Location:'.$url.'#section-error-success'));
+            header('Location:'.$url.'#section-error-success');
+            exit();
+
         }
     }
 
