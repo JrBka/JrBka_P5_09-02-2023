@@ -45,7 +45,7 @@ if (isset($_SESSION['user']) && isset($_SESSION['atConnection']) && $_SESSION['a
     <h2 class=" text-center">Le développeur dont vous avez besoin</h2>
     <p>BOUKRA Jérémy</p>
     <div id="img-container"><img src="views/img/photoProfil.jpg" alt="photo-de-profil"></div>
-    <span class="mt-3 text-center">Cliquez<a class="link text-primary" href="views/CV.pdf" target="_blank"> ici </a>pour voir mon CV</span>
+    <span class="mt-3 text-center">Cliquez<a class="link text-primary" href="views/img/CV.pdf" target="_blank"> ici </a>pour voir mon CV</span>
 </section>
 
 <section id="section-contact" class="mt-5 mb-3">

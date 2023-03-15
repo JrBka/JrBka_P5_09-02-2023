@@ -129,7 +129,7 @@
             </ul>
             <ul class="text-center">
                 <h4 class="text-warning">INFORMATIONS</h4>
-                <li class="footer-li"><a class="link" href="views/CV.pdf" target="_blank">CV</a></li>
+                <li class="footer-li"><a class="link" href="views/img/CV.pdf" target="_blank">CV</a></li>
                 <li class="footer-li"><a class="link" href="https://github.com/JrBka?tab=repositories" target="_blank">GitHub</a>
                 </li>
             </ul>

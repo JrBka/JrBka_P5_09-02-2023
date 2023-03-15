@@ -7,7 +7,13 @@ $csrf = $csrf->csrf();
 <?php $title = 'Admin'; ?>
 <?php $H1 = 'ADMIN'; ?>
 
+<?php if ($_SESSION['Display'] === false){
+    ?>
+    <h1 style="text-align: center; margin-top: 50vh;font-size: xxx-large">Vous ne disposez pas des droits nécessaire pour consulter cette page !</h1>
+<?php }else{?>
+
 <?php ob_start(); ?>
+
 
 <!-- Display error and success messages -->
 <section id="section-error-success" class="w-75 m-auto">
@@ -122,10 +128,11 @@ $csrf = $csrf->csrf();
         ?>
     </section>
 
-
 <?php $content = ob_get_clean(); ?>
 
 <?php require('layout.php'); ?>
+
+<?php } ?>
 
 
 

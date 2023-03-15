@@ -19,77 +19,87 @@ try {
     $check->checkInactivity();
 
 
-    if (!empty($_POST) && !empty($_GET['action'])){
+    if (!empty($_POST) && !empty($_GET['action'])) {
 
         $check->checkCsrfToken();
 
-        switch ($_GET['action']){
+        if ($check->checkCsrfToken() === false) {
 
-            case 'contactForm':
-                $form = new Home();
-                $form->getMessage();
-                break;
+            // Redirect to previous page
+            $url = $_SERVER['HTTP_REFERER'];
+            header('Location:' . $url . '#section-error-success');
 
-            case 'signin':
-                $signIn = new Login();
-                $signIn->signIn();
-                break;
+        } else {
 
-            case 'signup':
-                $signUp = new Login();
-                $signUp->signUp();
-                break;
+            switch ($_GET['action']) {
 
-            case 'addPost':
-                $addPost = new Posts();
-                $addPost->addPost();
-                break;
+                case 'contactForm':
+                    $form = new Home();
+                    $form->getMessage();
+                    break;
 
-            case 'getUpdatePostForm':
-                $getUpdatePostForm = new Posts();
-                $getUpdatePostForm->getUpdatePostForm();
-                break;
+                case 'signin':
+                    $signIn = new Login();
+                    $signIn->signIn();
+                    break;
 
-            case 'updatePost':
-                $updatePosts = new Posts();
-                $updatePosts->userUpdatePost();
-                break;
+                case 'signup':
+                    $signUp = new Login();
+                    $signUp->signUp();
+                    break;
 
-            case 'validatePost':
-                $validatePost = new Posts();
-                $validatePost->adminUpdatePost();
-                break;
+                case 'addPost':
+                    $addPost = new Posts();
+                    $addPost->addPost();
+                    break;
 
-            case 'deletePost':
-                $deletePosts = new Posts();
-                $deletePosts->userDeletePost();
-                break;
+                case 'getUpdatePostForm':
+                    $getUpdatePostForm = new Posts();
+                    $getUpdatePostForm->getUpdatePostForm();
+                    break;
 
-            case 'adminDeletePost':
-                $deletePosts = new Posts();
-                $deletePosts->adminDeletePost();
-                break;
+                case 'updatePost':
+                    $updatePosts = new Posts();
+                    $updatePosts->userUpdatePost();
+                    break;
 
-            case 'addComment':
-                $addComment = new Comments();
-                $addComment->addComment();
-                break;
+                case 'validatePost':
+                    $validatePost = new Posts();
+                    $validatePost->adminUpdatePost();
+                    break;
 
-            case 'validateComment':
-                $validateComment = new Comments();
-                $validateComment->validateComment();
-                break;
+                case 'deletePost':
+                    $deletePosts = new Posts();
+                    $deletePosts->userDeletePost();
+                    break;
 
-            case 'deleteComment':
-                $deleteComment = new Comments();
-                $deleteComment->deleteComment();
-                break;
+                case 'adminDeletePost':
+                    $deletePosts = new Posts();
+                    $deletePosts->adminDeletePost();
+                    break;
 
-            default:
-                throw new Exception('<h1 style="text-align: center; margin-top: 50vh;font-size: xxx-large">Error 404 : Page introuvable</h1>');
+                case 'addComment':
+                    $addComment = new Comments();
+                    $addComment->addComment();
+                    break;
+
+                case 'validateComment':
+                    $validateComment = new Comments();
+                    $validateComment->validateComment();
+                    break;
+
+                case 'deleteComment':
+                    $deleteComment = new Comments();
+                    $deleteComment->deleteComment();
+                    break;
+
+                default:
+                    throw new Exception('<h1 style="text-align: center; margin-top: 50vh;font-size: xxx-large">Error 404 : Page introuvable</h1>');
+            }
+
         }
-
-    }elseif (!empty($_GET) && !empty($_GET['page'])){
+    }
+    elseif (!empty($_GET) && !empty($_GET['page'])){
 
         switch ($_GET['page']) {
 
@@ -131,14 +141,16 @@ try {
 
             default:
                 throw new Exception('<h1 style="text-align: center; margin-top: 50vh;font-size: xxx-large">Error 404 : Page introuvable</h1>');
+
         }
+
 
     }else{
 
-        $home = new Home();
-        $home->getHomePage();
+            $home = new Home();
+            $home->getHomePage();
 
-    }
+        }
 
 
 } catch (Exception $e) {
