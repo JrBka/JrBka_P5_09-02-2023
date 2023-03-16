@@ -90,7 +90,7 @@ class MiddleWare
 
             throw new Exception('Le token csrf n\'a pas pu être authentifié !');
 
-        } elseif ($_SESSION['csrf_time'] < time() - 10) {
+        } elseif ($_SESSION['csrf_time'] < time() - 300) {
 
            throw new Exception('Le token csrf à expiré !');
 
