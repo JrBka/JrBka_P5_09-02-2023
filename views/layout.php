@@ -42,7 +42,7 @@
                                         href="index.php?page=homepage#section-contact">CONTACT</a></li>
                 <?php
                 if (!empty($_SESSION['user'] )) {
-                    if (isset($_SESSION['user']->idRole) && $_SESSION['user']->idRole === 1) {
+                    if (isset($_SESSION['user']->idRole) && $_SESSION['user']->idRole == 1) {
                         ?>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
                                                 href="index.php?page=adminpage">ADMINISTRATION</a></li>
@@ -121,7 +121,7 @@
                 <li class="footer-li"><a class="link" href="index.php?page=homepage"">Accueil</a></li>
                 <li class="footer-li"><a class="link" href="index.php?page=postspage">Posts</a></li>
                 <li class="footer-li"><a class="link" href="index.php?page=homepage#section-contact">Contact</a></li>
-                <?php if (isset($_SESSION['user']->idRole) && $_SESSION['user']->idRole === 1) {
+                <?php if (isset($_SESSION['user']->idRole) && $_SESSION['user']->idRole == 1) {
                         ?>
                         <li class="footer-li"><a class="link" href="index.php?page=adminpage">Administration</a></li>
                         <?php
@@ -139,8 +139,7 @@
 </footer>
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Core theme JS-->
-<script src="js/scripts.js"></script>
+
 
 </body>
 </html>

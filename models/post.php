@@ -6,37 +6,39 @@ class Post extends Database
 {
 
     // Insert post in posts table
-    public function createPost(): void
+    public function createPost(object $post): void
     {
             $query = "INSERT INTO posts (userId,content,title,chapo) VALUES (:userId,:content,:title,:chapo)";
 
             $insertPost = $this->connection->prepare($query);
             $insertPost->execute(
                 [
-                    'userId' => $_SESSION['user']->id,
-                    'title' => $_SESSION['post']->title,
-                    'chapo' => $_SESSION['post']->chapo,
-                    'content' => $_SESSION['post']->content
+                    'userId' => $post->userId,
+                    'title' => $post->title,
+                    'chapo' => $post->chapo,
+                    'content' => $post->content
 
                 ]
             ) or throw new Exception();
     }
 
 
-    public function getValidatedPosts():void
+    public function getValidatedPosts():array
     {
-         $this->getAllPosts(['is_validate' => 1]);
+         $validatePosts = $this->getAllPosts(['is_validate' => 1]);
+         return $validatePosts;
     }
 
 
-    public function getInvalidatedPosts():void
+    public function getInvalidatedPosts():array
     {
-         $this->getAllPosts(['is_validate' => 0]);
+         $invalidatePosts = $this->getAllPosts(['is_validate' => 0]);
+         return $invalidatePosts;
     }
 
 
 
-    public function getAllPosts(array $conditions):void
+    public function getAllPosts(array $conditions):array
     {
 
         $query = "SELECT userId,postId,title,content,chapo,creationDate,lastModification,pseudo,author FROM posts INNER JOIN users WHERE posts.userId = users.id AND posts.is_validate = :is_validate ORDER BY creationDate DESC ";
@@ -48,20 +50,22 @@ class Post extends Database
         if (is_bool($fetchAll) && !$fetchAll) {
             throw new Exception();
         } else {
+            $posts = [];
             foreach ($fetchAll as $value) {
-                $_SESSION['posts'] [] = (object)$value;
+                $posts [] = (object)$value;
             }
+            return $posts;
         }
     }
 
 
 
     // Get one post in database
-    public function getPost():void
+    public function getPost(int $postId):object
     {
             $query = "SELECT userId,postId,title,chapo,content,creationDate,lastModification,pseudo,author FROM posts INNER JOIN users WHERE posts.userId= users.id AND postId = :postId";
             $getPost = $this->connection->prepare($query);
-            $getPost->execute(  ['postId' => $_SESSION['post']->postId]) or throw new Exception();
+            $getPost->execute(['postId'=>$postId]) or throw new Exception();
             $fetch = $getPost->fetchObject();
 
             if (is_bool($fetch) && !$fetch) {
@@ -70,7 +74,7 @@ class Post extends Database
 
             } else {
 
-                    $_SESSION['post'] = (object)$fetch;
+                    return (object)$fetch;
             }
     }
 

@@ -1,5 +1,5 @@
 <?php
-require 'vendor\autoload.php';
+require 'vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
@@ -11,11 +11,11 @@ class Mailer
     protected mixed $mail;
 
     // PHP MAILER function
-    public function sendMail( object $formContent): void
+    public function sendMail( object $formContent): bool
     {
         $this->mail = new PHPMailer(true);
 
-        try {
+
             //info debug
             //$this->>mail->SMTPDebug = SMTP::DEBUG_SERVER;
 
@@ -40,16 +40,9 @@ class Mailer
             //send
             $this->mail->send();
 
-            $_SESSION['Success'] = "Message envoyé avec succès";
+            return true;
 
-            header('Location:index.php#section-contact');
 
-        } catch (Exception $e) {
-            $_SESSION['Error'] = $e->getMessage();
-
-            header('Location:index.php#section-contact');
-
-        }
     }
 }
 

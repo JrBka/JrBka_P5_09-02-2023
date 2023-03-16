@@ -67,7 +67,7 @@ class MiddleWare
 
         try {
 
-                if (empty($_SESSION['user']) || $_SESSION['user']->idRole !== 1){
+                if (empty($_SESSION['user']) || $_SESSION['user']->idRole != 1){
 
                     $_SESSION['Display'] = false;
 

@@ -34,8 +34,12 @@ class Home
                     'message' => $_POST['message']
                 ];
 
-                $form->sendMail($formContent);
+                $send = $form->sendMail($formContent);
 
+                if ($send){
+                    $_SESSION['Success'] = "Message envoyé avec succès";
+                    header('Location:index.php#section-contact');
+                }
             }
         } catch (Exception $error) {
 

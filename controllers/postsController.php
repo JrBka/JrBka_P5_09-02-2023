@@ -25,7 +25,7 @@ class Posts
 
             }else {
 
-                $_SESSION['post'] = (object)[
+                $postContent = (object)[
                     'title' => trim($_POST['title']),
                     'content' => trim($_POST['content']),
                     'chapo' => trim($_POST['chapo']),
@@ -33,7 +33,10 @@ class Posts
                 ];
 
                 $post = new Post();
-                $post->createPost();
+                $post->createPost($postContent);
+
+                $_SESSION['post'] = $postContent;
+
                 $_SESSION['Success'] = 'Post en attente de validation !';
                 header('Location:index.php?page=postspage#section-addPost');
             }
@@ -50,11 +53,10 @@ class Posts
     {
         try {
 
-            $_SESSION['posts'] = [];
-
             $getAllPosts = new Post();
-            $getAllPosts->getValidatedPosts();
+            $getAllPosts = $getAllPosts->getValidatedPosts();
 
+            $_SESSION['posts'] = $getAllPosts;
             require('views/postsPage.php');
 
         } catch (Exception $e) {
@@ -69,11 +71,10 @@ class Posts
     {
         try {
 
-            $_SESSION['posts'] = [];
-
             $getAllPosts = new Post();
-            $getAllPosts->getInvalidatedPosts();
+            $getAllPosts = $getAllPosts->getInvalidatedPosts();
 
+            $_SESSION['posts'] = $getAllPosts;
 
         } catch (Exception $e) {
             $_SESSION['Error'] = $e->getMessage();
@@ -88,20 +89,21 @@ class Posts
         try {
 
             if (isset($_POST['postId'])){
-                $_SESSION['post']=(object)['postId'=>$_POST['postId']];
+
+                $postId = (int)$_POST['postId'];
+
+                $getPost = new Post();
+                $getPost = $getPost->getPost($postId);
+
+                $_SESSION['post'] = $getPost;
+
+                $getComments = new Comments();
+                $getComments->getValidatedComments();
+
+                $_SESSION['formUpdate'] = false;
+
+                require('views/postPage.php');
             }
-
-
-            $getPost = new Post();
-            $getPost->getPost();
-
-
-            $getComments = new Comments();
-            $getComments->getValidatedComments();
-
-            $_SESSION['formUpdate'] = false;
-
-            require('views/postPage.php');
 
         } catch (Exception $e) {
             $_SESSION['Error'] = $e->getMessage();

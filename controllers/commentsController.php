@@ -15,7 +15,11 @@ class Comments
             if (empty(trim($_POST['commentContent']))) {
                 throw new Exception();
             }else {
-                $commentContent = $_POST['commentContent'];
+                $commentContent =(object) [
+                   'content' => $_POST['commentContent'],
+                    'userId' => $_SESSION['user']->id,
+                    'postId' => $_SESSION['post']->postId
+                ];
 
                 $comment = new Comment();
                 $comment->createComment($commentContent);
@@ -37,11 +41,16 @@ class Comments
     {
         try {
 
-            $_SESSION['comments'] = [];
+
+            $validateComments = (object)[
+                'postId'=> $_SESSION['post']->postId,
+                'is_validate'=>1
+            ];
 
             $getAllPosts = new Comment();
-            $getAllPosts->getValidatedComments();
+            $comments = $getAllPosts->getValidatedComments($validateComments);
 
+            $_SESSION['comments'] = $comments;
 
         } catch (Exception $e) {
             $_SESSION['Error'] = $e->getMessage();
@@ -55,11 +64,14 @@ class Comments
     {
         try {
 
-            $_SESSION['comments'] = [];
-            
-            $getAllPosts = new Comment();
-            $getAllPosts->getInvalidatedComments();
+            $invalidateComments = (object)[
+                'is_validate'=>0
+            ];
 
+            $getAllPosts = new Comment();
+            $comments = $getAllPosts->getInvalidatedComments($invalidateComments);
+
+            $_SESSION['comments'] = $comments;
 
         } catch (Exception $e) {
 

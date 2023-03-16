@@ -5,7 +5,7 @@ class Comment extends Database
 {
 
     // Insert comment in comments table
-    public function createComment(string $commentContent): void
+    public function createComment(object $commentContent): void
     {
 
             $query = "INSERT INTO comments (postId,userId,content) VALUES (:postId,:userId,:content)";
@@ -13,9 +13,9 @@ class Comment extends Database
             $insertPost = $this->connection->prepare($query);
             $insertPost->execute(
                 [
-                    'userId' => $_SESSION['user']->id,
-                    'postId' => $_SESSION['post']->postId,
-                    'content' => $commentContent
+                    'userId' => $commentContent->userId,
+                    'postId' => $commentContent->postId,
+                    'content' => $commentContent->content
 
                 ]
             ) or throw new Exception();
@@ -25,14 +25,14 @@ class Comment extends Database
 
 
     // Get all comments validated for each post in database
-    public function getValidatedComments() :void
+    public function getValidatedComments(object $validateComments) :array
     {
 
             $query = "SELECT DISTINCT comments.userId,comments.postId,comments.commentId,comments.content,comments.creationDate,users.pseudo FROM comments INNER JOIN users ON comments.userId = users.id INNER JOIN posts WHERE comments.postId = :postId AND comments.is_validate = :is_validate ORDER BY creationDate DESC ";
             $getComments = $this->connection->prepare($query);
             $getComments->execute([
-                'postId'=> $_SESSION['post']->postId,
-                'is_validate'=>1
+                'postId'=> $validateComments->postId,
+                'is_validate'=>$validateComments->is_validate
             ]) or throw new Exception();
             $fetchAll = $getComments->fetchAll();
 
@@ -42,21 +42,25 @@ class Comment extends Database
 
             } else {
 
+                $comments = [];
                 foreach ($fetchAll as $value) {
 
-                    $_SESSION['comments'] [] = (object)$value;
+                    $comments [] = (object)$value;
                 }
+                return $comments;
             }
     }
 
 
     // Get all comments invalidated in database
-    public function getInvalidatedComments() :void
+    public function getInvalidatedComments(object $invalidateComments) :array
     {
 
         $query = "SELECT comments.userId,comments.postId,comments.commentId,comments.content,comments.creationDate,users.pseudo FROM comments INNER JOIN users ON comments.userId = users.id AND comments.is_validate = :is_validate ORDER BY creationDate DESC ";
         $getAllComments = $this->connection->prepare($query);
-        $getAllComments->execute(['is_validate' => 0]) or throw new Exception();
+        $getAllComments->execute([
+            'is_validate'=>$invalidateComments->is_validate
+        ]) or throw new Exception();
         $fetchAll = $getAllComments->fetchAll();
 
         if (is_bool($fetchAll) && !$fetchAll) {
@@ -65,11 +69,12 @@ class Comment extends Database
 
         } else {
 
+            $comments = [];
             foreach ($fetchAll as $value) {
 
-                $_SESSION['comments'] [] = (object)$value;
+                $comments [] = (object)$value;
             }
-
+            return $comments;
         }
 
     }
