@@ -18,3 +18,4 @@ Une fois le projet installé et configuré lancer votre serveur local et votre g
 Dans le gestionnaire de base de données importez le fichier myblogpro.sql
 
 Le projet est prêt à être lancé, soit directement depuis votre IDE soit en tapant http://localhost/JrBka_P5_09-02-2023/index.php dans votre navigateur.
+
