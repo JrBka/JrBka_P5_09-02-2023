@@ -102,7 +102,7 @@
                 if (!empty($_SESSION['user'])) {
                     ?>
                     <li class="footer-li">
-                        <a class="link" href="index.php?action=logout">Déconnexion</a>
+                        <a class="link" href="index.php?page=logout">Déconnexion</a>
                     </li>
                     <?php
                 } else {
