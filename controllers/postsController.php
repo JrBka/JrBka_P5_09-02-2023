@@ -88,9 +88,15 @@ class Posts
     {
         try {
 
-            if (isset($_POST['postId'])){
+            if (isset($_POST['postId'])) {
 
                 $postId = (int)$_POST['postId'];
+
+            }elseif (isset($_SESSION['post']->postId)){
+
+                $postId = (int)$_SESSION['post']->postId;
+
+            }else{ throw new Exception();}
 
                 $getPost = new Post();
                 $getPost = $getPost->getPost($postId);
@@ -103,7 +109,6 @@ class Posts
                 $_SESSION['formUpdate'] = false;
 
                 require('views/postPage.php');
-            }
 
         } catch (Exception $e) {
             $_SESSION['Error'] = $e->getMessage();

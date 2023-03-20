@@ -68,7 +68,7 @@ try {
                     $validatePost->adminUpdatePost();
                     break;
 
-                case 'deletePost':
+                case 'userDeletePost':
                     $deletePosts = new Posts();
                     $deletePosts->userDeletePost();
                     break;
